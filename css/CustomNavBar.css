@@ -1,0 +1,11 @@
+@import "tailwindcss";
+
+
+.customnavbar{
+    background-color: #855a32;
+    margin: 0;
+    padding: 0;
+    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    line-height: 5;
+    font-weight: 400;
+}
