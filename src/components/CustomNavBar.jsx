@@ -1,5 +1,5 @@
 import { Button, Navbar, Typography } from "@material-tailwind/react";
-import '../../css/CustomNavBar.css'
+import '../../css/components/CustomNavBar.css'
  
 export default function CustomNavBar() {
   return (
