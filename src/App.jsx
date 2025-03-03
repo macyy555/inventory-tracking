@@ -1,11 +1,11 @@
-import HomePage from './pages/HomePage'
+import CustomerHomePage from './pages/Customer/CustomerHomePage'
 import WelcomePage from './pages/WelcomePage'
 import '../css/App.css'
 
 function App() {
   return (
       <div>
-        <HomePage />
+        <CustomerHomePage />
         {/* <WelcomePage /> */}
       </div>
   );
