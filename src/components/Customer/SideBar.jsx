@@ -1,11 +1,10 @@
 import { Button, Navbar, Typography } from "@material-tailwind/react";
-import '../../../css/components/Customer/SideBar.css'
 
 function SideBar(){
     return(
-        <div class="sidebar h-full">
+        <div class="bg-[#FAF2ED] w-full min-h-screen h-auto">
             <div className="w-full">
-                <form className="w-full">
+                <form>
                 <input className="bg-white" type="text" id="search-box" name="search-text" value="Search"/>
                 </form>
             </div>

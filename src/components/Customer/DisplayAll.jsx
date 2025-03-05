@@ -1,9 +1,8 @@
 import { Button, Navbar, Typography } from "@material-tailwind/react";
-import '../../../css/components/Customer/DisplayAll.css'
 
 function DisplayAll(){
     return(
-        <div class="maindisplay">
+        <div class="bg-[#FAF2ED] mb-5">
             <div className="flex justify-between">
             <Typography className="font-medium text-l pl-7 pt-3 tracking-wide text-black">
             Film</Typography>
