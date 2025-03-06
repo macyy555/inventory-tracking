@@ -6,12 +6,12 @@ import DisplayAll from '../../components/Customer/DisplayAll.jsx'
 
 function CustomerHomePage(){
     return(
-        <div className="bg-[#967761] relative min-h-max h-auto flex flex-col">
+        <div className="bg-[#967761] flex flex-col">
             <CustomNavBar />
 
-            <div className="grid grid-cols-7 gap-4 w-full min-h-max h-auto">
+            <div className="grid grid-cols-7 gap-4 min-h-[calc(100vh-160px)]">
                 <SideBar />
-                <div className="col-span-6 min-h-max h-auto">
+                <div className="col-span-6">
                     {/* extract info from db and add loop here */}
                 <DisplayAll />
                 <DisplayAll />

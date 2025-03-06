@@ -2,7 +2,7 @@ import { Button, Navbar, Typography } from "@material-tailwind/react";
 
 function SideBar(){
     return(
-        <div class="bg-[#FAF2ED] w-full min-h-screen h-auto">
+        <div class="bg-[#FAF2ED] flex flex-col h-full">
             <div className="w-full">
                 <form>
                 <input className="bg-white" type="text" id="search-box" name="search-text" value="Search"/>
