@@ -1,11 +1,18 @@
-import CustomerHomePage from './pages/Customer/CustomerHomePage'
-import WelcomePage from './pages/WelcomePage'
+import WelcomePage from './pages/WelcomePage.jsx'
+import CustomerHomePage from './pages/Customer/CustomerHomePage.jsx'
+import ViewProductDetail from './pages/Customer/ViewProductDetail.jsx'
+import EmployeeHomePage from './pages/Employee/EmployeeHomePage.jsx'
+import EditPage from './pages/Employee/EditPage.jsx'
+
 
 function App() {
   return (
       <div>
-        <CustomerHomePage />
         {/* <WelcomePage /> */}
+        {/* <CustomerHomePage /> */}
+        {/* <ViewProductDetail /> */}
+        {/* <EmployeeHomePage /> */}
+        <EditPage />
       </div>
   );
 }

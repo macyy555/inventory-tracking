@@ -3,6 +3,8 @@ import CustomNavBar from '../../components/Customer/CustomNavBar.jsx'
 import Footer from '../../components/Customer/Footer.jsx'
 import SideBar from '../../components/Customer/SideBar.jsx'
 import DisplayAll from '../../components/Customer/DisplayAll.jsx'
+import DisplayEach from '../../components/Customer/DisplayEach.jsx'
+import ContactForm from '../../components/Customer/ContactForm.jsx'
 
 function CustomerHomePage(){
     return(
@@ -10,12 +12,19 @@ function CustomerHomePage(){
             <CustomNavBar />
 
             <div className="grid grid-cols-7 gap-4 min-h-[calc(100vh-160px)]">
-                <SideBar />
+                <div className="col-span-1">
+                    <SideBar />
+                </div>
                 <div className="col-span-6">
+                {/* add code to select which display should be shown */}
                     {/* extract info from db and add loop here */}
-                <DisplayAll />
-                <DisplayAll />
-                <DisplayAll />
+                    {/* <DisplayAll />
+                    <DisplayAll />
+                    <DisplayAll /> */}
+
+                    {/* <DisplayEach /> */}
+
+                    <ContactForm />
                 </div>
             </div>
 
