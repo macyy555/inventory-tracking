@@ -1,29 +1,66 @@
 import { Button, Navbar, Typography } from "@material-tailwind/react";
+import searchimg from "../../assets/search.png";
+import boximg from "../../assets/box.png";
+import filmimg from "../../assets/film-roll.png";
+import albumimg from "../../assets/album.png";
+import frameimg from "../../assets/Frame.png";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
-function SideBar(){
+function SideBar(props){
+
+    const [value, setValue] = useState("Search");
+    const [display, setDisplay] = useState(0);
+
+    function onBoxClick(){
+        props.display(0);
+        setDisplay(0);
+    }
+
+    function onFilmClick(){
+        props.display(1);
+        setDisplay(1);
+    }
+
+    function onAlbumClick(){
+        props.display(2);
+        setDisplay(2);
+    }
+
+    function onFrameClick(){
+        props.display(3);
+        setDisplay(3);
+    }
+
+    function onInputChange(e){
+        setValue(e.target.value);
+    }
+
     return(
-        <div class="bg-[#FAF2ED] flex flex-col h-full gap-0 p-0">
+
+        
+        <div className="bg-[#FAF2ED] flex flex-col h-full gap-0 p-0">
             <div className="bg-white w-full mt-10 flex flex-row">
-                <img className="ml-5" src="src/assets/search.png" alt="A" width="25" height="15" />
-                <input className="bg-white text-gray-600 shrink w-full ml-2" type="text" id="search-box" name="search-text" value="Search"/>
+                <img className="ml-5" src={searchimg} alt="A" width="25" height="15" />
+                <input className="bg-white text-gray-600 shrink w-full ml-2" type="text" id="search-box" name="search-text" value={value} onChange={onInputChange}/>
             </div>
-            <div className="w-full mt-4 flex flex-row">
-                <img className="ml-5" src="src/assets/box.png" alt="A" width="25" height="15" />
+            <div className="w-full p-1 mt-2 flex flex-row cursor-pointer hover:bg-[#E2D5CD]" style={{ backgroundColor: display==0 ? '#E2D5CD': '#FAF2ED'}}  onClick={onBoxClick}>
+                <img className="ml-5" src={boximg} alt="A" width="25" height="15" />
                 <Typography className="ml-3 font-medium text-l tracking-wide text-black">
                 All Products</Typography>
             </div>
-            <div className="w-full mt-4 flex flex-row">
-                <img className="ml-5" src="src/assets/film-roll.png" alt="A" width="25" height="15" />
+            <div className="w-full p-1 mt-2 flex flex-row cursor-pointer hover:bg-[#E2D5CD]" style={{ backgroundColor: display==1 ? '#E2D5CD': '#FAF2ED'}}  onClick={onFilmClick}>
+                <img className="ml-5" src={filmimg} alt="A" width="25" height="15" />
                 <Typography className="ml-3 font-medium text-l tracking-wide text-black">
                 Film</Typography>
             </div>
-            <div className="w-full mt-4 flex flex-row">
-                <img className="ml-5" src="src/assets/album.png" alt="A" width="25" height="15" />
+            <div className="w-full p-1 mt-2 flex flex-row cursor-pointer hover:bg-[#E2D5CD]" style={{ backgroundColor: display==2 ? '#E2D5CD': '#FAF2ED'}}  onClick={onAlbumClick}>
+                <img className="ml-5" src={albumimg} alt="A" width="25" height="15" />
                 <Typography className="ml-3 font-medium text-l tracking-wide text-black">
                 Album</Typography>
             </div>
-            <div className="w-full mt-4 flex flex-row">
-                <img className="ml-5" src="src/assets/Frame.png" alt="A" width="25" height="15" />
+            <div className="w-full p-1 mt-2 flex flex-row cursor-pointer hover:bg-[#E2D5CD]" style={{ backgroundColor: display==3 ? '#E2D5CD': '#FAF2ED'}}  onClick={onFrameClick}>
+                <img className="ml-5" src={frameimg} alt="A" width="25" height="15" />
                 <Typography className="ml-3 font-medium text-l tracking-wide text-black">
                 Frame</Typography>
             </div>

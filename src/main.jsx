@@ -4,10 +4,36 @@ import './main.css'
 import App from './App.jsx'
 import { ThemeProvider } from "@material-tailwind/react";
 
+import {
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom";
+
+import WelcomePage from './pages/WelcomePage.jsx'
+import CustomerHomePage from './pages/Customer/CustomerHomePage.jsx'
+import EmployeeHomePage from './pages/Employee/EmployeeHomePage.jsx'
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <WelcomePage/>,
+  },
+  {
+    path: "/customer/home",
+    element: <CustomerHomePage/>,
+  },
+  {
+    path: "/employee/home",
+    element: <EmployeeHomePage/>,
+  },
+]);
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <ThemeProvider>
-      <App />
+    <RouterProvider router={router}>
+        {/* <App /> */}
+    </RouterProvider>
     </ThemeProvider>
   </StrictMode>,
 )

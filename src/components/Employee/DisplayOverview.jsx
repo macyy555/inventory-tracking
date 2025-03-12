@@ -2,7 +2,7 @@ import { Button, Navbar, Typography } from "@material-tailwind/react";
 
 function DisplayOverview(){
     return(
-        <div class="bg-[#FAF2ED] mb-5 pb-5">
+        <div className="bg-[#FAF2ED] mb-5 pb-5">
             <div className="flex justify-between">
                 <Typography className="font-medium text-l pl-7 pt-3 tracking-wide text-black">
                 Film</Typography>
