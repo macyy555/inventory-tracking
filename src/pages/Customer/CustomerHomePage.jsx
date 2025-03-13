@@ -21,7 +21,7 @@ function CustomerHomePage(){
 
             <div className="grid grid-cols-7 gap-4 min-h-[calc(100vh-160px)]">
                 <div className="col-span-1">
-                    <SideBar display={setDisplay}/>
+                    <SideBar display={setDisplay} displayOption={displayOption}/>
                 </div>
                 <div className="col-span-6">
                 {/* add code to select which display should be shown */}

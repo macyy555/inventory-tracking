@@ -1,5 +1,6 @@
 // const withMT = require("@material-tailwind/react/utils/withMT");
 import withMT from "@material-tailwind/react/utils/withMT";
+import autoprefixer from 'autoprefixer'
  
 export default withMT({
   content: ["./index.html", 
@@ -8,5 +9,5 @@ export default withMT({
   theme: {
     extend: {},
   },
-  plugins: [],
+  plugins: [autoprefixer],
 });
