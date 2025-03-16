@@ -9,5 +9,5 @@ export default withMT({
   theme: {
     extend: {},
   },
-  plugins: [autoprefixer],
+  plugins: [],
 });
