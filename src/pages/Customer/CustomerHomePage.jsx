@@ -5,6 +5,7 @@ import SideBar from '../../components/Customer/SideBar.jsx'
 import DisplayAll from '../../components/Customer/DisplayAll.jsx'
 import DisplayEach from '../../components/Customer/DisplayEach.jsx'
 import ContactForm from '../../components/Customer/ContactForm.jsx'
+import clsx from 'clsx';
 
 function CustomerHomePage(){
 
@@ -26,19 +27,26 @@ function CustomerHomePage(){
                 <div className="col-span-6">
                 {/* add code to select which display should be shown */}
                     {/* extract info from db and add loop here */}
-                    <div style={{ display: displayOption==0 ? 'grid': 'none'}}>
+                    <div className={clsx(displayOption==0 ? "opacity-100" : "opacity-0", "transition-opacity ease-in-out duration-150")}>
+                    <div className={clsx(displayOption==0 ? "grid" : "hidden transition-discrete duration-150", "")}>
                         <DisplayAll />
                         <DisplayAll />
                         <DisplayAll />
                     </div>
+                    </div>
 
-                    <div style={{ display: displayOption==1 || displayOption==2 || displayOption==3 ? 'grid': 'none'}}>
+                    <div className={clsx(displayOption==1 || displayOption==2 || displayOption==3 ? "opacity-100" : "opacity-0", "transition-opacity ease-in-out duration-150")}>
+                    <div className={clsx(displayOption==1 || displayOption==2 || displayOption==3 ? "grid" : "hidden transition-discrete duration-150", "")}>
                         <DisplayEach />
                     </div>
-
-                    <div style={{ display: displayOption==4 ? 'grid': 'none'}}>
-                    <ContactForm />
                     </div>
+
+                    <div className={clsx(displayOption==4 ? "opacity-100" : "opacity-0", "transition-opacity ease-in-out duration-150")}>
+                    <div className={clsx(displayOption==4 ? "grid" : "hidden transition-discrete duration-150", "")}>
+                        <ContactForm />
+                    </div>
+                    </div>
+
                 </div>
             </div>
 
