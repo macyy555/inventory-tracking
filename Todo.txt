@@ -1,2 +1,5 @@
 CustomerHomePage
-- add pop up window for product detail
+- add pop up window for each product display
+
+EmployeePage
+- TODO
