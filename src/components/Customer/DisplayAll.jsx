@@ -8,12 +8,16 @@ import film5img from "../../assets/Products/Film/Film5.png";
 import React, { useState } from "react";
 import clsx from 'clsx';
 
-function DisplayAll(){
+function DisplayAll(props){
 
     const [expand, setExpand] = useState(true);
 
     function onArrowClick(){
         setExpand(!expand)
+    }
+
+    function onViewDetailClick(){
+        props.viewDetailStatus(true);
     }
 
     return(
@@ -29,27 +33,27 @@ function DisplayAll(){
             <div className={clsx(expand ? "opacity-100" : "opacity-0", "transition-opacity delay-150 ease-in-out duration-300")}>
             <div className={clsx(expand ? "grid grid-cols-5 mt-3" : "hidden transition-discrete duration-150", "")}>
                 {/* extract info from db and add loop here */}
-                <div className="p-3 justify-items-center">
+                <div className="p-3 justify-items-center" onClick={onViewDetailClick}>
                     <img src={film1img} alt="A" width="100" height="100" />
                     <Typography className="font-medium text-l mt-3 tracking-wide text-black">
                     A</Typography>
                 </div>
-                <div className="p-3 justify-items-center">
+                <div className="p-3 justify-items-center" onClick={onViewDetailClick}>
                     <img src={film2img} alt="A" width="100" height="100" />
                     <Typography className="font-medium text-l mt-3 tracking-wide text-black">
                     B</Typography>
                 </div>
-                <div className="p-3 justify-items-center">
+                <div className="p-3 justify-items-center" onClick={onViewDetailClick}>
                     <img src={film3img} alt="A" width="100" height="100" />
                     <Typography className="font-medium text-l mt-3 tracking-wide text-black">
                     C</Typography>
                 </div>
-                <div className="p-3 justify-items-center">
+                <div className="p-3 justify-items-center" onClick={onViewDetailClick}>
                     <img src={film4img} alt="A" width="100" height="100" />
                     <Typography className="font-medium text-l mt-3 tracking-wide text-black">
                     D</Typography>
                 </div>
-                <div className="p-3 justify-items-center">
+                <div className="p-3 justify-items-center" onClick={onViewDetailClick}>
                     <img src={film5img} alt="A" width="100" height="100" />
                     <Typography className="font-medium text-l mt-3 tracking-wide text-black">
                     E</Typography>

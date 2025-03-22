@@ -6,17 +6,25 @@ import DisplayAll from '../../components/Customer/DisplayAll.jsx'
 import DisplayEach from '../../components/Customer/DisplayEach.jsx'
 import ContactForm from '../../components/Customer/ContactForm.jsx'
 import clsx from 'clsx';
+import ViewProductDetail from "./ViewProductDetail.jsx";
 
 function CustomerHomePage(){
 
     const [displayOption, setDisplayOption] = useState(0);
+    const [viewDetail, setViewDetail] = useState(false);
 
     function setDisplay(user_displayOption){
         console.log(user_displayOption); 
         setDisplayOption(user_displayOption);
     }
 
+    function setViewDetailStatus(user_viewDetailStatus){
+        console.log(user_viewDetailStatus);
+        setViewDetail(user_viewDetailStatus)
+    }
+
     return(
+        <React.Fragment>
         <div className="bg-[#967761] flex flex-col">
             <CustomNavBar display={setDisplay}/>
 
@@ -29,15 +37,15 @@ function CustomerHomePage(){
                     {/* extract info from db and add loop here */}
                     <div className={clsx(displayOption==0 ? "opacity-100" : "opacity-0", "transition-opacity ease-in-out duration-150")}>
                     <div className={clsx(displayOption==0 ? "grid" : "hidden transition-discrete duration-150", "")}>
-                        <DisplayAll />
-                        <DisplayAll />
-                        <DisplayAll />
+                        <DisplayAll viewDetailStatus={setViewDetailStatus}/>
+                        <DisplayAll viewDetailStatus={setViewDetailStatus}/>
+                        <DisplayAll viewDetailStatus={setViewDetailStatus}/>
                     </div>
                     </div>
 
                     <div className={clsx(displayOption==1 || displayOption==2 || displayOption==3 ? "opacity-100" : "opacity-0", "transition-opacity ease-in-out duration-150")}>
                     <div className={clsx(displayOption==1 || displayOption==2 || displayOption==3 ? "grid" : "hidden transition-discrete duration-150", "")}>
-                        <DisplayEach />
+                        <DisplayEach viewDetailStatus={setViewDetailStatus}/>
                     </div>
                     </div>
 
@@ -55,6 +63,11 @@ function CustomerHomePage(){
             </div>
 
         </div>
+
+        <div className={clsx(viewDetail ? "grid" : "hidden transition-discrete duration-150", "")}>
+            <ViewProductDetail viewDetailStatus={setViewDetailStatus}/>
+        </div>
+        </React.Fragment>
             
     );
     

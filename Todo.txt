@@ -1,0 +1,2 @@
+CustomerHomePage
+- add pop up window for product detail
