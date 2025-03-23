@@ -29,13 +29,13 @@ function DisplayAll(props){
             <div className="flex justify-between pb-3">
                 <Typography className="font-medium text-l pl-7 pt-3 tracking-wide text-black">
                 Film</Typography>
-                <div className={clsx('py-3', "px-3", expand ? '-rotate-90' : '')} onClick={onArrowClick}>
+                <div className={clsx("py-3 px-3 cursor-pointer", expand ? '-rotate-90' : '')} onClick={onArrowClick}>
                     <img src={leftimg} width="30" height="30"/>
                 </div>
             </div>
                 {/* extract info from db and add loop here */}
             <div className={clsx(expand ? "opacity-100" : "opacity-0", "transition-opacity delay-150 ease-in-out duration-300")}>
-            <div className={clsx(expand ? "grid grid-cols-5 mt-3" : "hidden transition-discrete duration-150", "")}>
+            <div className={clsx(expand ? "grid grid-cols-5 mt-3" : "hidden transition-discrete duration-450", "")}>
                 {/* extract info from db and add loop here */}
                 <div className="p-3 justify-items-center cursor-pointer" onClick={onViewDetailClick} id={idproductname}>
                     <img src={film1img} alt="A" width="100" height="100" id={idproductname}/>

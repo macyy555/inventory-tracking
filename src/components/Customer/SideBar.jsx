@@ -8,7 +8,7 @@ import React, { useState } from "react";
 
 function SideBar(props){
 
-    const [value, setValue] = useState("Search");
+    const [value, setValue] = useState("");
 
     function onBoxClick(){
         props.display(0);
@@ -36,7 +36,7 @@ function SideBar(props){
         <div className="bg-[#FAF2ED] flex flex-col h-full gap-0 p-0">
             <div className="bg-white w-full mt-10 flex flex-row">
                 <img className="ml-5" src={searchimg} alt="A" width="25" height="15" />
-                <input className="bg-white text-gray-600 shrink w-full ml-2" type="text" id="search-box" name="search-text" value={value} onChange={onInputChange}/>
+                <input className="bg-white text-gray-600 shrink w-full ml-2" type="text" id="search-box" name="search-text" placeholder="Search" value={value} onChange={onInputChange}/>
             </div>
             <div className="w-full p-1 mt-2 flex flex-row cursor-pointer hover:bg-[#E2D5CD]" style={{ backgroundColor: props.displayOption==0 ? '#E2D5CD': '#FAF2ED'}}  onClick={onBoxClick}>
                 <img className="ml-5" src={boximg} alt="A" width="25" height="15" />

@@ -13,7 +13,7 @@ function ViewProductDetail(props){
     return(
         <div className="bg-black/50 backdrop-opacity-25 backdrop-blur-sm fixed inset-0 flex justify-center items-center">
             <div className="bg-[#FAF2ED] justify-items-center w-fit h-fit grid">
-                <Typography className="font-medium text-l tracking-wide text-black justify-self-end py-2 px-4 w-10 cursor-pointer" onClick={onCloseClick}>
+                <Typography className="font-medium text-l tracking-wide text-black justify-self-end py-2 px-4 w-10 cursor-pointer drop-shadow-xs" onClick={onCloseClick}>
                 X</Typography>
                 <div className="flex flex-row p-15">
                     <img className="" src={Film1} alt="A" width="100" height="100" />

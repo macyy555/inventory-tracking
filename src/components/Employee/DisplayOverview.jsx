@@ -1,17 +1,28 @@
 import { Button, Navbar, Typography } from "@material-tailwind/react";
+import leftimg from "../../assets/left.png";
+import React, { useState, useReducer } from "react";
+import clsx from 'clsx';
 
 function DisplayOverview(){
+
+    const [expand, setExpand] = useState(true);
+    
+    function onArrowClick(){
+        setExpand(!expand)
+    }
+
     return(
         <div className="bg-[#FAF2ED] mb-5 pb-5">
             <div className="flex justify-between">
                 <Typography className="font-medium text-l pl-7 pt-3 tracking-wide text-black">
                 Film</Typography>
-            <div className="pt-2 pr-3">
-                <img src="src/assets/left.png" width="30" height="30"/>
+            <div className={clsx("pt-2 pr-3 cursor-pointer", expand ? '-rotate-90' : '')} onClick={onArrowClick}>
+                <img src={leftimg} width="30" height="30"/>
             </div>
             </div>
             {/* extract info from db and add loop here */}
-            <div className="grid grid-cols-3 mt-3 justify-between">
+            <div className={clsx(expand ? "opacity-100" : "opacity-0", "transition-opacity delay-150 ease-in-out duration-300")}>
+            <div className={clsx(expand ? "grid grid-cols-3 mt-3 justify-between" : "hidden transition-discrete duration-450", "")}>
                 {/* extract info from db and add loop here */}
                 <dl className="bg-[#ECE1D5] ml-5 p-3 rounded-lg">
                     <Typography className="font-medium text-xl ml-5 tracking-wide text-black">
@@ -148,6 +159,7 @@ function DisplayOverview(){
                             </table>
                     </div>
                 </dl>
+            </div>
             </div>
 
         </div>
