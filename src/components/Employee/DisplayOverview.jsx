@@ -32,36 +32,36 @@ function DisplayOverview(){
                             <table className="w-fit text-sm text-left rtl:text-right text-gray-800">
                                 <thead className="text-xs text-black uppercase">
                                     <tr>
-                                        <th scope="col" class="pt-3 pr-3">
+                                        <th scope="col" className="pt-3 pr-3">
                                         </th>
-                                        <th scope="col" class="italic pt-3 pr-3">
+                                        <th scope="col" className="italic pt-3 pr-3">
                                             In Stock
                                         </th>
-                                        <th scope="col" class="italic pt-3 pr-3">
+                                        <th scope="col" className="italic pt-3 pr-3">
                                             Prices
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr class="text-xs text-black">
-                                        <th scope="row" class="pr-3">
+                                    <tr className="text-xs text-black">
+                                        <th scope="row" className="pr-3">
                                             S1
                                         </th>
-                                        <td class="pr-3">
+                                        <td className="pr-3">
                                             10
                                         </td>
-                                        <td class="pr-3">
+                                        <td className="pr-3">
                                             320
                                         </td>
                                     </tr>
-                                    <tr class="text-xs text-black">
-                                        <th scope="row" class="pr-3">
+                                    <tr className="text-xs text-black">
+                                        <th scope="row" className="pr-3">
                                             S2
                                         </th>
-                                        <td class="pr-3">
+                                        <td className="pr-3">
                                             20
                                         </td>
-                                        <td class="pr-3">
+                                        <td className="pr-3">
                                             340
                                         </td>
                                     </tr>
@@ -77,36 +77,36 @@ function DisplayOverview(){
                             <table className="w-fit text-sm text-left rtl:text-right text-gray-800">
                                 <thead className="text-xs text-black uppercase">
                                     <tr>
-                                        <th scope="col" class="pt-3 pr-3">
+                                        <th scope="col" className="pt-3 pr-3">
                                         </th>
-                                        <th scope="col" class="italic pt-3 pr-3">
+                                        <th scope="col" className="italic pt-3 pr-3">
                                             In Stock
                                         </th>
-                                        <th scope="col" class="italic pt-3 pr-3">
+                                        <th scope="col" className="italic pt-3 pr-3">
                                             Prices
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr class="text-xs text-black">
-                                        <th scope="row" class="pr-3">
+                                    <tr className="text-xs text-black">
+                                        <th scope="row" className="pr-3">
                                             S1
                                         </th>
-                                        <td class="pr-3">
+                                        <td className="pr-3">
                                             10
                                         </td>
-                                        <td class="pr-3">
+                                        <td className="pr-3">
                                             320
                                         </td>
                                     </tr>
-                                    <tr class="text-xs text-black">
-                                        <th scope="row" class="pr-3">
+                                    <tr className="text-xs text-black">
+                                        <th scope="row" className="pr-3">
                                             S2
                                         </th>
-                                        <td class="pr-3">
+                                        <td className="pr-3">
                                             20
                                         </td>
-                                        <td class="pr-3">
+                                        <td className="pr-3">
                                             340
                                         </td>
                                     </tr>
@@ -122,36 +122,36 @@ function DisplayOverview(){
                             <table className="w-fit text-sm text-left rtl:text-right text-gray-800">
                                 <thead className="text-xs text-black uppercase">
                                     <tr>
-                                        <th scope="col" class="pt-3 pr-3">
+                                        <th scope="col" className="pt-3 pr-3">
                                         </th>
-                                        <th scope="col" class="italic pt-3 pr-3">
+                                        <th scope="col" className="italic pt-3 pr-3">
                                             In Stock
                                         </th>
-                                        <th scope="col" class="italic pt-3 pr-3">
+                                        <th scope="col" className="italic pt-3 pr-3">
                                             Prices
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr class="text-xs text-black">
-                                        <th scope="row" class="pr-3">
+                                    <tr className="text-xs text-black">
+                                        <th scope="row" className="pr-3">
                                             S1
                                         </th>
-                                        <td class="pr-3">
+                                        <td className="pr-3">
                                             10
                                         </td>
-                                        <td class="pr-3">
+                                        <td className="pr-3">
                                             320
                                         </td>
                                     </tr>
-                                    <tr class="text-xs text-black">
-                                        <th scope="row" class="pr-3">
+                                    <tr className="text-xs text-black">
+                                        <th scope="row" className="pr-3">
                                             S2
                                         </th>
-                                        <td class="pr-3">
+                                        <td className="pr-3">
                                             20
                                         </td>
-                                        <td class="pr-3">
+                                        <td className="pr-3">
                                             340
                                         </td>
                                     </tr>

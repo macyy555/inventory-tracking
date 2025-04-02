@@ -14,6 +14,8 @@ let category = "Film"; //for extracting from db
 function SideBar(props){
 
     const [value, setValue] = useState("");
+    const [showall, setShowall] = useState(true);
+    const [isChecked, setCheckbox] = useState(true);
 
     function onInputChange(e){
         setValue(e.target.value);
@@ -31,6 +33,26 @@ function SideBar(props){
         props.display(1)
     }
 
+    function onAllProductsClick(e){
+        if (document.getElementById(e.target.id).checked)
+        {
+            setShowall(true);
+            document.getElementById("S1").checked = true; //do for all element
+        }
+        else{
+            setShowall(false);
+        }
+    }
+
+    function onSupplierClick(e){
+        if (document.getElementById(e.target.id).checked){
+            //will do
+        }
+        else{
+            setShowall(false);
+        }
+    }
+
 
     return(
         <div className="bg-[#FAF2ED] flex flex-col h-full gap-0 p-0">
@@ -41,29 +63,29 @@ function SideBar(props){
             <Typography className="ml-4 mt-10 font-medium text-xs tracking-wide text-gray-500 italic">
                 Filtered by Product</Typography>
             <div className="w-full mt-4 ml-1 flex flex-row">
-                <input className="ml-3 w-6 h-6 accent-white border-gray-500 border-4 scheme-light" type="checkbox" id="allproduct" name="allproduct" value="allproduct"/>
+                <input className="ml-3 w-6 h-6 accent-white border-gray-500 border-4 scheme-light" type="checkbox" id="allproducts" onClick={onAllProductsClick} checked={showall ? true:false}/>
                 <img className="ml-1" src={boximg} alt="A" width="25" height="15" />
                 <Typography className="ml-1 font-medium text-l tracking-wide text-black">
                 All Products</Typography>
             </div>
-            <ProductSideBarElement category={category}/>
-            <ProductSideBarElement category="Album"/>
-            <ProductSideBarElement category="Frame"/>
+            <ProductSideBarElement category={category} showall={showall}/>
+            <ProductSideBarElement category="Album" showall={showall}/>
+            <ProductSideBarElement category="Frame" showall={showall}/>
 
             <Typography className="ml-4 mt-10 font-medium text-xs tracking-wide text-gray-500 italic">
                 Filtered by Supplier</Typography>
             <div className="w-full mt-2 ml-1 flex flex-row">
-                <input className="ml-3 w-6 h-6 accent-white border-gray-500 border-4 scheme-light" type="checkbox" id="allproduct" name="allproduct" value="allproduct"/>
+                <input className="ml-3 w-6 h-6 accent-white border-gray-500 border-4 scheme-light" type="checkbox" id="S1" onChange={onSupplierClick}/>
                 <Typography className="ml-2 font-medium text-l tracking-wide text-black shrink">
                 S1</Typography>
             </div>
             <div className="w-full mt-2 ml-1 flex flex-row">
-                <input className="ml-3 w-6 h-6 accent-white border-gray-500 border-4 scheme-light" type="checkbox" id="allproduct" name="allproduct" value="allproduct"/>
+                <input className="ml-3 w-6 h-6 accent-white border-gray-500 border-4 scheme-light" type="checkbox" id="S2" onChange={onSupplierClick}/>
                 <Typography className="ml-2 font-medium text-l tracking-wide text-black shrink">
                 S2</Typography>
             </div>
             <div className="w-full mt-2 ml-1 flex flex-row">
-                <input className="ml-3 w-6 h-6 accent-white border-gray-500 border-4 scheme-light" type="checkbox" id="allproduct" name="allproduct" value="allproduct"/>
+                <input className="ml-3 w-6 h-6 accent-white border-gray-500 border-4 scheme-light" type="checkbox" id="S3" onChange={onSupplierClick}/>
                 <Typography className="ml-2 font-medium text-l tracking-wide text-black shrink">
                 S3</Typography>
             </div>
@@ -73,7 +95,7 @@ function SideBar(props){
                 Edit list</Button>
             </div>
             <div className="mt-4 mx-3">
-                <Button className={clsx(props.displayOption==0 ? "bg-[#d19473] shadow-md outline-none" : "bg-[#D9B7A4]","w-full h-10 focus:bg-[#d19473] focus:shadow-md focus:outline-none")} onClick={onOverviewClick} autofocus="true">
+                <Button className={clsx(props.displayOption==0 ? "bg-[#d19473] shadow-md outline-none" : "bg-[#D9B7A4]","w-full h-10 focus:bg-[#d19473] focus:shadow-md focus:outline-none")} onClick={onOverviewClick} autoFocus={true}>
                 Overview</Button>
             </div>
             <div className="mt-4 mx-3 mb-10">
