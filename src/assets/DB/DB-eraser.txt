@@ -1,0 +1,62 @@
+customer [icon: user, color: gray] {
+  cust_id int pk
+  name string
+  email string
+  phoneNumber string
+  lineID string
+}
+
+cust_quiz {
+  quiz_id int pk
+  cust_id int
+  quiz string
+}
+
+teams [icon: users, color: red] {
+  employee_id int pk
+  name string
+  password string
+}
+
+category [color: blue]{
+  cate_id int pk
+  name string
+}
+
+items [color: green]{
+  items_id int pk
+  cate_id int
+  name string
+  description string
+  img bytea
+}
+
+supplier [color: purple]{
+  sup_id int pk
+  name string
+}
+
+inventory [color: yellow]{
+  list_id int pk
+  items_id int
+  sup_id int
+  lot_order int
+  defect int
+  instock int
+  capital decimal
+  sale1pc int
+  createdAt timestamp
+  createdBy int
+  updatedAt timestamp
+  updateBy int
+}
+
+customer.cust_id > cust_quiz.cust_id
+items.cate_id > category.cate_id
+inventory.items_id > items.items_id
+inventory.sup_id > supplier.sup_id
+inventory.createdBy > teams.employee_id
+inventory.updateBy > teams.employee_id
+
+
+
