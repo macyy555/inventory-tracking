@@ -1,7 +1,0 @@
-CustomerHomePage
-- no search function yet
-
-EmployeePage
-- add checkbox function 
-    - Select / Unselect correctly
-    - Show info according to selected option

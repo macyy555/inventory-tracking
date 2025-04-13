@@ -7,6 +7,8 @@ import DisplayEach from '../../components/Customer/DisplayEach.jsx'
 import ContactForm from '../../components/Customer/ContactForm.jsx'
 import clsx from 'clsx';
 import ViewProductDetail from "./ViewProductDetail.jsx";
+import axios from 'axios'
+import { Button } from "@material-tailwind/react";
 
 function initViewDetailState(){
     return {viewDetail: false, productname: "A"};
@@ -14,6 +16,7 @@ function initViewDetailState(){
 
 function CustomerHomePage(){
 
+    const [data, setData] = useState("A")
     const [displayOption, setDisplayOption] = useState(0);
     const [viewDetailState, setViewDetailState] = useState(initViewDetailState)
 
@@ -26,9 +29,18 @@ function CustomerHomePage(){
         setViewDetailState({viewDetail: user_viewDetailState.viewDetail, productname: user_viewDetailState.productname});
     }
 
+    async function fetchData(){
+        const res = await axios.get("http://localhost:5000")
+        setData(res.data.data)
+        console.log(res.data);
+        
+    }
+
     return(
         <React.Fragment>
         <div className="bg-[#967761] flex flex-col">
+            <h1>{data}</h1>
+            <Button onClick={fetchData}>try API</Button>
             <CustomNavBar display={setDisplay}/>
 
             <div className="grid grid-cols-7 gap-4 min-h-[calc(100vh-160px)]">
