@@ -9,12 +9,6 @@ const corsOptions = {
     credentials: true,
 };
 
-
-// region @git-ignore
-console.log(`[someMethod value]`, value)
-// the comment and console.log statement will be excluded from the diff
-// endregion
-
 app.use(cors(corsOptions));
 
 app.get('/', (req, res) => {
