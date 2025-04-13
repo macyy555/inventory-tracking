@@ -33,7 +33,6 @@ function CustomerHomePage(){
         const res = await axios.get("http://localhost:5000")
         setData(res.data.data)
         console.log(res.data);
-        
     }
 
     return(
