@@ -10,6 +10,8 @@ import ViewProductDetail from "./ViewProductDetail.jsx";
 import axios from 'axios'
 import { Button } from "@material-tailwind/react";
 
+const db_url = 'http://'+import.meta.env.VITE_DB_HOST+":"+import.meta.env.VITE_DB_EXP_PORT;
+
 function initViewDetailState(){
     return {viewDetail: false, productname: "A"};
 }
@@ -30,8 +32,10 @@ function CustomerHomePage(){
     }
 
     async function fetchData(){
-        const res = await axios.get("http://localhost:5000")
-        setData(res.data.data)
+        console.log(db_url);
+        
+        const res = await axios.get(db_url);
+        setData(res.data.data);
         console.log(res.data);
     }
 
