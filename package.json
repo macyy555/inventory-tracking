@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "start": "nodemon Server.js",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
@@ -36,6 +37,7 @@
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-react-refresh": "^0.4.16",
     "globals": "^15.14.0",
+    "nodemon": "^3.1.9",
     "tailwindcss": "^4.0.14",
     "vite": "^6.2.6"
   },

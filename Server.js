@@ -6,7 +6,6 @@ import pg from "pg";
 
 dotenv.config();
 
-const db_url = 'http://'+process.env.VITE_DB_HOST+":"+process.env.VITE_DB_PORT;
 const client_origin = 'http://'+process.env.VITE_CLIENT_HOST+":"+process.env.VITE_CLIENT_PORT;
 
 const db = new pg.Client({
@@ -29,8 +28,23 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-app.get('/', (req, res) => {
-  res.send({data: "server"});
+let inventory = {rows: []};
+
+app.get('/', async (req, res) => {
+  if (inventory.rows.length){
+    res.send(inventory)
+    console.log("have inventory");
+    
+  } else {
+    try {
+      inventory = await db.query("SELECT * FROM category");
+      console.log(inventory.rows);
+
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  
 });
 
 app.listen(port, () => {

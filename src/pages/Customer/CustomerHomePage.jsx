@@ -33,17 +33,16 @@ function CustomerHomePage(){
 
     async function fetchData(){
         console.log(db_url);
-        
         const res = await axios.get(db_url);
-        setData(res.data.data);
-        console.log(res.data);
+        console.log(res.data.rows);
     }
 
     return(
         <React.Fragment>
         <div className="bg-[#967761] flex flex-col">
-            <h1>{data}</h1>
-            <Button onClick={fetchData}>try API</Button>
+
+            <Button onClick={fetchData}>try API in console</Button>
+
             <CustomNavBar display={setDisplay}/>
 
             <div className="grid grid-cols-7 gap-4 min-h-[calc(100vh-160px)]">
