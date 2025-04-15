@@ -29,22 +29,89 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 let inventory = {rows: []};
+let category = {rows: []};
+let items = {rows: []};
+let supplier = {rows: []};
+let teams = {rows: []};
 
-app.get('/', async (req, res) => {
-  if (inventory.rows.length){
-    res.send(inventory)
-    console.log("have inventory");
-    
+app.get('/customer', async (req, res) => {
+  //retrieve category
+  if (category.rows.length){
+    console.log("category in cache");
   } else {
     try {
-      inventory = await db.query("SELECT * FROM category");
-      console.log(inventory.rows);
+      category = await db.query("SELECT * FROM category");
+      console.log(category.rows);
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
+  //retrieve items
+  if (items.rows.length){
+    console.log("items in cache");
+  } else {
+    try {
+      items = await db.query("SELECT * FROM items");
+      console.log(items.rows);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  res.send({category: category, items: items});
+});
+
+app.get('/employee', async (req, res) => {
+  //retrieve category
+  if (category.rows.length){
+    console.log("category in cache");
+  } else {
+    try {
+      category = await db.query("SELECT * FROM category");
+      console.log(category.rows);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  //retrieve items
+  if (items.rows.length){
+    console.log("items in cache");
+  } else {
+    try {
+      items = await db.query("SELECT * FROM items");
+      console.log(items.rows);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  //retrieve inventory
+  if (inventory.rows.length){
+    console.log("inventory in cache");
+  } else {
+    try {
+      inventory = await db.query("SELECT * FROM inventory");
+      console.log(inventory.rows);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  //retrieve supplier
+  if (supplier.rows.length){
+    console.log("supplier in cache");
+  } else {
+    try {
+      supplier = await db.query("SELECT * FROM supplier");
+      console.log(supplier.rows);
     } catch (err) {
       console.log(err);
     }
   }
   
+  res.send({category: category, items: items, inventory: inventory, supplier: supplier});
 });
 
 app.listen(port, () => {

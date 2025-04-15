@@ -5,6 +5,12 @@ import DisplayOverview from '../../components/Employee/DisplayOverview.jsx'
 import DisplayInDetails from '../../components/Employee/DisplayInDetails.jsx'
 import EditPage from "./EditPage.jsx";
 import clsx from 'clsx';
+import axios from 'axios'
+
+//retreive data from database
+const db_url = 'http://'+import.meta.env.VITE_DB_HOST+":"+import.meta.env.VITE_DB_EXP_PORT+"/employee";
+const res = await axios.get(db_url);
+console.log(res);
 
 function EmployeeHomePage(){
 

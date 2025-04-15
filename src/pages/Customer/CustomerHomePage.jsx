@@ -10,7 +10,16 @@ import ViewProductDetail from "./ViewProductDetail.jsx";
 import axios from 'axios'
 import { Button } from "@material-tailwind/react";
 
-const db_url = 'http://'+import.meta.env.VITE_DB_HOST+":"+import.meta.env.VITE_DB_EXP_PORT;
+//retreive data from database
+const db_url = 'http://'+import.meta.env.VITE_DB_HOST+":"+import.meta.env.VITE_DB_EXP_PORT+"/customer";
+const res = await axios.get(db_url);
+console.log(res);
+const category = res.data.category.rows;
+const items_db = res.data.items.rows;
+
+const items_data = items_db.filter((item) => item.cate_id == 1);
+console.log(items_data);
+
 
 function initViewDetailState(){
     return {viewDetail: false, productname: "A"};
@@ -18,7 +27,6 @@ function initViewDetailState(){
 
 function CustomerHomePage(){
 
-    const [data, setData] = useState("A")
     const [displayOption, setDisplayOption] = useState(0);
     const [viewDetailState, setViewDetailState] = useState(initViewDetailState)
 
@@ -31,23 +39,15 @@ function CustomerHomePage(){
         setViewDetailState({viewDetail: user_viewDetailState.viewDetail, productname: user_viewDetailState.productname});
     }
 
-    async function fetchData(){
-        console.log(db_url);
-        const res = await axios.get(db_url);
-        console.log(res.data.rows);
-    }
-
     return(
         <React.Fragment>
         <div className="bg-[#967761] flex flex-col">
-
-            <Button onClick={fetchData}>try API in console</Button>
 
             <CustomNavBar display={setDisplay}/>
 
             <div className="grid grid-cols-7 gap-4 min-h-[calc(100vh-160px)]">
                 <div className="col-span-1">
-                    <SideBar display={setDisplay} displayOption={displayOption}/>
+                    <SideBar display={setDisplay} displayOption={displayOption} category={category}/>
                 </div>
                 <div className="col-span-6">
                 {/* add code to select which display should be shown */}
