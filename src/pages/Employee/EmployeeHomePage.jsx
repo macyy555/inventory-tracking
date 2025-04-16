@@ -10,7 +10,11 @@ import axios from 'axios'
 //retreive data from database
 const db_url = 'http://'+import.meta.env.VITE_DB_HOST+":"+import.meta.env.VITE_DB_EXP_PORT+"/employee";
 const res = await axios.get(db_url);
-console.log(res);
+// console.log(res);
+const category = res.data.category.rows;
+const items_db = res.data.items.rows;
+const supplier = res.data.supplier.rows;
+const inventory = res.data.inventory.rows;
 
 function EmployeeHomePage(){
 
@@ -34,24 +38,28 @@ function EmployeeHomePage(){
 
             <div className="grid grid-cols-7 gap-4 min-h-[calc(100vh-80px)]">
                 <div className="col-span-1">
-                    <SideBar display={setDisplay} displayOption={displayOption} viewEditPageState={viewEditPageState} viewEditPage={setViewEditPage}/>
+                    <SideBar display={setDisplay} displayOption={displayOption} viewEditPageState={viewEditPageState} viewEditPage={setViewEditPage} category={category} items_db={items_db} supplier={supplier}/>
                 </div>
                 <div className="col-span-6">
                 {/* add code to select which display should be shown */}
                     {/* extract info from db and add loop here */}
                     <div className={clsx(displayOption==0 ? "opacity-100" : "opacity-0", "transition-opacity ease-in-out duration-150")}>
                     <div className={clsx(displayOption==0 ? "grid" : "hidden transition-discrete duration-150", "")}>
-                    <DisplayOverview />
-                    <DisplayOverview />
-                    <DisplayOverview />
+                    {
+                        category.map(each_category => (
+                            <DisplayOverview category={each_category} inventory={inventory} items={items_db.filter((item) => item.cate_id == each_category.cate_id)} supplier={supplier}/>
+                        ))
+                    }
                     </div>
                     </div>
 
                     <div className={clsx(displayOption==1 ? "opacity-100" : "opacity-0", "transition-opacity ease-in-out duration-150")}>
                     <div className={clsx(displayOption==1 ? "grid" : "hidden transition-discrete duration-150", "")}>
-                    <DisplayInDetails />
-                    <DisplayInDetails />
-                    <DisplayInDetails />
+                    {
+                        category.map(each_category => (
+                            <DisplayInDetails category={each_category} inventory={inventory} items={items_db.filter((item) => item.cate_id == each_category.cate_id)} supplier={supplier}/>
+                        ))
+                    }
                     </div>
                     </div>
                 </div>

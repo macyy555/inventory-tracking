@@ -1,0 +1,6 @@
+- fix image from db
+- enable filter function in employee page
+- update db for 
+    - customer: contact from
+    - employee: add/edit list
+- add search function

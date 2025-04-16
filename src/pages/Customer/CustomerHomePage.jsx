@@ -13,16 +13,13 @@ import { Button } from "@material-tailwind/react";
 //retreive data from database
 const db_url = 'http://'+import.meta.env.VITE_DB_HOST+":"+import.meta.env.VITE_DB_EXP_PORT+"/customer";
 const res = await axios.get(db_url);
-console.log(res);
+// console.log(res);
 const category = res.data.category.rows;
 const items_db = res.data.items.rows;
 
-const items_data = items_db.filter((item) => item.cate_id == 1);
-console.log(items_data);
-
 
 function initViewDetailState(){
-    return {viewDetail: false, productname: "A"};
+    return {viewDetail: false, product: [{ name: "A", description: "xxxxx"}]};
 }
 
 function CustomerHomePage(){
@@ -36,7 +33,10 @@ function CustomerHomePage(){
     }
 
     function setviewDetail(user_viewDetailState){
-        setViewDetailState({viewDetail: user_viewDetailState.viewDetail, productname: user_viewDetailState.productname});
+        setViewDetailState({
+            viewDetail: user_viewDetailState.viewDetail, 
+            product: user_viewDetailState.product,
+        });
     }
 
     return(
@@ -54,20 +54,22 @@ function CustomerHomePage(){
                     {/* extract info from db and add loop here */}
                     <div className={clsx(displayOption==0 ? "opacity-100" : "opacity-0", "transition-opacity ease-in-out duration-150")}>
                     <div className={clsx(displayOption==0 ? "grid" : "hidden transition-discrete duration-150", "")}>
-                        <DisplayAll viewDetail={setviewDetail}/>
-                        <DisplayAll viewDetail={setviewDetail}/>
-                        <DisplayAll viewDetail={setviewDetail}/>
+                    {
+                        category.map(each_category => (
+                            <DisplayAll category={each_category} items={items_db.filter((item) => item.cate_id == each_category.cate_id)} viewDetail={setviewDetail}/>
+                        ))
+                    }
                     </div>
                     </div>
 
-                    <div className={clsx(displayOption==1 || displayOption==2 || displayOption==3 ? "opacity-100" : "opacity-0", "transition-opacity ease-in-out duration-150")}>
-                    <div className={clsx(displayOption==1 || displayOption==2 || displayOption==3 ? "grid" : "hidden transition-discrete duration-150", "")}>
-                        <DisplayEach viewDetail={setviewDetail}/>
+                    <div className={clsx(displayOption!=0 && displayOption!=category.length+1 ? "opacity-100" : "opacity-0", "transition-opacity ease-in-out duration-150")}>
+                    <div className={clsx(displayOption!=0 && displayOption!=category.length+1 ? "grid" : "hidden transition-discrete duration-150", "")}>   
+                        <DisplayEach items={items_db.filter((item) => item.cate_id == displayOption)} viewDetail={setviewDetail}/>
                     </div>
                     </div>
 
-                    <div className={clsx(displayOption==4 ? "opacity-100" : "opacity-0", "transition-opacity ease-in-out duration-150")}>
-                    <div className={clsx(displayOption==4 ? "grid" : "hidden transition-discrete duration-150", "")}>
+                    <div className={clsx(displayOption==category.length+1 ? "opacity-100" : "opacity-0", "transition-opacity ease-in-out duration-150")}>
+                    <div className={clsx(displayOption==category.length+1 ? "grid" : "hidden transition-discrete duration-150", "")}>
                         <ContactForm />
                     </div>
                     </div>

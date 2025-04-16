@@ -9,9 +9,11 @@ import React, { useState, useReducer } from "react";
 import clsx from 'clsx';
 import ProductSideBarElement from "./ProductSideBarElement";
 
-let category = "Film"; //for extracting from db
-
 function SideBar(props){
+
+    const category = props.category;
+    const items_db = props.items_db;
+    const supplier = props.supplier;
 
     const [value, setValue] = useState("");
     const [showall, setShowall] = useState(true);
@@ -37,7 +39,15 @@ function SideBar(props){
         if (document.getElementById(e.target.id).checked)
         {
             setShowall(true);
-            document.getElementById("S1").checked = true; //do for all element
+            supplier.map(each_supplier => (
+                document.getElementById(each_supplier.name).checked = true
+            ))
+            category.map(each_category => (
+                document.getElementById(each_category.name).checked = true
+            ))
+            items_db.map(item => (
+                document.getElementById(item.name).checked = true
+            ))
         }
         else{
             setShowall(false);
@@ -68,39 +78,35 @@ function SideBar(props){
                 <Typography className="ml-1 font-medium text-l tracking-wide text-black">
                 All Products</Typography>
             </div>
-            <ProductSideBarElement category={category} showall={showall}/>
-            <ProductSideBarElement category="Album" showall={showall}/>
-            <ProductSideBarElement category="Frame" showall={showall}/>
+            {
+                category.map(each_category => (
+                    <ProductSideBarElement category={each_category} items={items_db.filter((item) => item.cate_id == each_category.cate_id)} showall={showall}/>
+                ))
+            }
 
             <Typography className="ml-4 mt-10 font-medium text-xs tracking-wide text-gray-500 italic">
                 Filtered by Supplier</Typography>
-            <div className="w-full mt-2 ml-1 flex flex-row">
-                <input className="ml-3 w-6 h-6 accent-white border-gray-500 border-4 scheme-light" type="checkbox" id="S1" onChange={onSupplierClick}/>
-                <Typography className="ml-2 font-medium text-l tracking-wide text-black shrink">
-                S1</Typography>
-            </div>
-            <div className="w-full mt-2 ml-1 flex flex-row">
-                <input className="ml-3 w-6 h-6 accent-white border-gray-500 border-4 scheme-light" type="checkbox" id="S2" onChange={onSupplierClick}/>
-                <Typography className="ml-2 font-medium text-l tracking-wide text-black shrink">
-                S2</Typography>
-            </div>
-            <div className="w-full mt-2 ml-1 flex flex-row">
-                <input className="ml-3 w-6 h-6 accent-white border-gray-500 border-4 scheme-light" type="checkbox" id="S3" onChange={onSupplierClick}/>
-                <Typography className="ml-2 font-medium text-l tracking-wide text-black shrink">
-                S3</Typography>
-            </div>
+            {
+                supplier.map(each_supplier => (
+                    <div className="w-full mt-2 ml-1 flex flex-row">
+                        <input className="ml-3 w-6 h-6 accent-white border-gray-500 border-4 scheme-light" type="checkbox" id={each_supplier.name} onChange={onSupplierClick}/>
+                        <Typography className="ml-2 font-medium text-l tracking-wide text-black shrink">
+                        {each_supplier.name}</Typography>
+                    </div>
+                ))
+            }
 
             <div className="mt-10 mx-3">
-                <Button className={clsx(props.viewEditPageState ? "bg-[#d19473] shadow-md outline-none" : "bg-[#D9B7A4]","w-full h-10")} onClick={onEditClick}>
-                Edit list</Button>
-            </div>
-            <div className="mt-4 mx-3">
                 <Button className={clsx(props.displayOption==0 ? "bg-[#d19473] shadow-md outline-none" : "bg-[#D9B7A4]","w-full h-10 focus:bg-[#d19473] focus:shadow-md focus:outline-none")} onClick={onOverviewClick} autoFocus={true}>
                 Overview</Button>
             </div>
-            <div className="mt-4 mx-3 mb-10">
+            <div className="mt-4 mx-3">
                 <Button className={clsx(props.displayOption==1 ? "bg-[#d19473] shadow-md outline-none" : "bg-[#D9B7A4]","w-full h-10")} onClick={onInDetailsClick}>
                 In Details</Button>
+            </div>
+            <div className="mt-4 mx-3 mb-10">
+                <Button className={clsx(props.viewEditPageState ? "bg-[#d19473] shadow-md outline-none" : "bg-[#D9B7A4]","w-full h-10")} onClick={onEditClick}>
+                Edit list</Button>
             </div>
         </div>
     );

@@ -22,8 +22,8 @@ function EditPage(props){
     }
 
     return(
-        <div className="bg-black/50 backdrop-opacity-25 backdrop-blur-sm fixed inset-0">
-            <Typography className="font-medium text-xl tracking-wide text-white justify-self-end py-8 px-10 w-10 cursor-pointer drop-shadow-sm" onClick={onCloseClick}>
+        <div className="bg-black/60 backdrop-opacity-25 backdrop-blur-sm fixed inset-0">
+            <Typography className="font-medium text-3xl tracking-wide text-white justify-self-end py-8 px-20 w-10 cursor-pointer drop-shadow-sm mt-20" onClick={onCloseClick}>
             X</Typography>
             <div className="bg-[#FAF2ED] w-3/5 h-max-fit grid justify-self-center">
                 <div className="flex flex-row-reverse">
