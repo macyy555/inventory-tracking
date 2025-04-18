@@ -5,6 +5,7 @@ import SideBar from '../../components/Customer/SideBar.jsx'
 import DisplayAll from '../../components/Customer/DisplayAll.jsx'
 import DisplayEach from '../../components/Customer/DisplayEach.jsx'
 import ContactForm from '../../components/Customer/ContactForm.jsx'
+import SubmitQuizComplete from './SubmitQuizComplete.jsx'
 import clsx from 'clsx';
 import ViewProductDetail from "./ViewProductDetail.jsx";
 import axios from 'axios'
@@ -22,10 +23,14 @@ function initViewDetailState(){
     return {viewDetail: false, product: [{ name: "A", description: "xxxxx"}]};
 }
 
-function CustomerHomePage(){
+function CustomerHomePage(props){
 
-    const [displayOption, setDisplayOption] = useState(0);
-    const [viewDetailState, setViewDetailState] = useState(initViewDetailState)
+    console.log(props.displayOption);
+    
+
+    const [displayOption, setDisplayOption] = useState(props.displayOption);
+    const [viewDetailState, setViewDetailState] = useState(initViewDetailState);
+    const [showsubmitcomplete, setshowsubmitcomplete] = useState(props.showsubmitcomplete);
 
     function setDisplay(user_displayOption){
         console.log(user_displayOption); 
@@ -37,6 +42,10 @@ function CustomerHomePage(){
             viewDetail: user_viewDetailState.viewDetail, 
             product: user_viewDetailState.product,
         });
+    }
+
+    function setshowsubmitcompletestate(user_select){
+        setshowsubmitcomplete(user_select);
     }
 
     return(
@@ -62,14 +71,14 @@ function CustomerHomePage(){
                     </div>
                     </div>
 
-                    <div className={clsx(displayOption!=0 && displayOption!=category.length+1 ? "opacity-100" : "opacity-0", "transition-opacity ease-in-out duration-150")}>
-                    <div className={clsx(displayOption!=0 && displayOption!=category.length+1 ? "grid" : "hidden transition-discrete duration-150", "")}>   
+                    <div className={clsx(displayOption!=0 && displayOption!=99 ? "opacity-100" : "opacity-0", "transition-opacity ease-in-out duration-150")}>
+                    <div className={clsx(displayOption!=0 && displayOption!=99 ? "grid" : "hidden transition-discrete duration-150", "")}>   
                         <DisplayEach items={items_db.filter((item) => item.cate_id == displayOption)} viewDetail={setviewDetail}/>
                     </div>
                     </div>
 
-                    <div className={clsx(displayOption==category.length+1 ? "opacity-100" : "opacity-0", "transition-opacity ease-in-out duration-150")}>
-                    <div className={clsx(displayOption==category.length+1 ? "grid" : "hidden transition-discrete duration-150", "")}>
+                    <div className={clsx(displayOption==99 ? "opacity-100" : "opacity-0", "transition-opacity ease-in-out duration-150")}>
+                    <div className={clsx(displayOption==99 ? "grid" : "hidden transition-discrete duration-150", "")}>
                         <ContactForm />
                     </div>
                     </div>
@@ -85,6 +94,10 @@ function CustomerHomePage(){
 
         <div className={clsx(viewDetailState.viewDetail ? "grid" : "hidden transition-discrete duration-150", "")}>
             <ViewProductDetail viewDetail={setviewDetail} viewDetailState={viewDetailState}/>
+        </div>
+
+        <div className={clsx(showsubmitcomplete ? "grid" : "hidden transition-discrete duration-150", "")}>
+            <SubmitQuizComplete setshowsubmitcomplete={setshowsubmitcompletestate} showsubmitcomplete={showsubmitcomplete}/>
         </div>
         </React.Fragment>
             

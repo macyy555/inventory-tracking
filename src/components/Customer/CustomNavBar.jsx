@@ -1,10 +1,14 @@
 import { Button, Navbar, Typography } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
  
 export default function CustomNavBar(props) {
 
+  const navigate = useNavigate()
+
   function onContactClick(){
-    props.display(4)
+    navigate('/customer/submitquiz')
+    props.display(99);
   }
 
   return (

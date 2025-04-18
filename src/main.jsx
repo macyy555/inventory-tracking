@@ -20,7 +20,15 @@ const router = createBrowserRouter([
   },
   {
     path: "/customer/home",
-    element: <CustomerHomePage/>,
+    element: <CustomerHomePage displayOption={0} showsubmitcomplete={false}/>,
+  },
+  {
+    path: "/customer/submitquiz",
+    element: <CustomerHomePage displayOption={99} showsubmitcomplete={false}/>,
+  },
+  {
+    path: "/customer/submitquizcomplete",
+    element: <CustomerHomePage displayOption={99} showsubmitcomplete={true} />,
   },
   {
     path: "/employee/home",

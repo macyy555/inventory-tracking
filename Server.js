@@ -114,6 +114,74 @@ app.get('/employee', async (req, res) => {
   res.send({category: category, items: items, inventory: inventory, supplier: supplier});
 });
 
+app.post('/customer/submitquiz', async (req, res) => {
+  const cust_name = req.body.name;
+  const cust_email = req.body.email;
+  const cust_phoneNumber = req.body.phone;
+  const cust_lineid = req.body.lineID;
+  const cust_quiz = req.body.question;
+
+  console.log(cust_email);
+  
+  try{
+
+    //check if this customer is already in db 
+    let check_customer = await db.query('SELECT cust_id, email, phonenumber, lineid FROM customer WHERE name=$1', [cust_name]);
+    console.log("check customer");
+    
+    console.log(check_customer.rows);
+    if (check_customer.rows.length > 0){
+      let cust_id_selected = "";
+      for (let check_customer_iter of check_customer.rows){
+        if (cust_email.length>0 && cust_email != check_customer_iter.email){
+          //new customer found (only name is duplicated)
+          await db.query('INSERT INTO customer (email, name, phonenumber, lineid) VALUES ($1, $2, $3, $4)', [cust_email, cust_name, cust_phoneNumber, cust_lineid]);
+          console.log("add customer");
+          check_customer = await db.query('SELECT cust_id FROM customer WHERE email=$1', [cust_email]);
+          cust_id_selected = check_customer.rows[0].cust_id
+          break;
+        } else if (cust_phoneNumber.length>0 && cust_phoneNumber != check_customer_iter.phonenumber){
+          //new customer found (only name is duplicated)
+          await db.query('INSERT INTO customer (email, name, phonenumber, lineid) VALUES ($1, $2, $3, $4)', [cust_email, cust_name, cust_phoneNumber, cust_lineid]);
+          console.log("add customer");
+          check_customer = await db.query('SELECT cust_id FROM customer WHERE phonenumber=$1', [cust_phoneNumber]);
+          cust_id_selected = check_customer.rows[0].cust_id
+          break;
+        } else if (cust_lineid.length>0 && cust_lineid != check_customer_iter.lineid){
+          //new customer found (only name is duplicated)
+          await db.query('INSERT INTO customer (email, name, phonenumber, lineid) VALUES ($1, $2, $3, $4)', [cust_email, cust_name, cust_phoneNumber, cust_lineid]);
+          console.log("add customer");
+          check_customer = await db.query('SELECT cust_id FROM customer WHERE lineid=$1', [cust_lineid]);
+          cust_id_selected = check_customer.rows[0].cust_id
+          break;
+        }
+        else {
+          //old customer submit the question
+          cust_id_selected = check_customer_iter.cust_id;
+          break;
+        }
+      }
+      //add question
+      await db.query('INSERT INTO cust_quiz (quiz, cust_id) VALUES ($1, $2)', [cust_quiz, cust_id_selected]);
+      console.log("add question");
+      
+    } else {
+      //add customer info
+      await db.query('INSERT INTO customer (email, name, phonenumber, lineid) VALUES ($1, $2, $3, $4)', [cust_email, cust_name, cust_phoneNumber, cust_lineid]);
+      console.log("add new customer");
+      check_customer = await db.query('SELECT cust_id FROM customer WHERE email=$1 OR phonenumber=$2 OR lineid=$3', [cust_email, cust_phoneNumber, cust_lineid]);
+      //add question
+      await db.query('INSERT INTO cust_quiz (quiz, cust_id) VALUES ($1, $2)', [cust_quiz, cust_id_selected]);
+      console.log("add question");
+    }
+    
+    res.redirect(client_origin+'/customer/submitquizcomplete')
+  } catch (err) {
+    console.log(err);
+  }
+  
+});
+
 app.listen(port, () => {
   console.log(`Server running on http://${process.env.VITE_DB_HOST}:${port}`);
 });
