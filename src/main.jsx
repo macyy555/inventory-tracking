@@ -34,6 +34,10 @@ const router = createBrowserRouter([
     path: "/employee/home",
     element: <EmployeeHomePage/>,
   },
+  {
+    path: "/employee/submitlistcomplete",
+    element: <EmployeeHomePage displayOption={99} showsubmitcomplete={true} />,
+  },
 ]);
 
 createRoot(document.getElementById('root')).render(

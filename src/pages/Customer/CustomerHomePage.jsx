@@ -25,9 +25,6 @@ function initViewDetailState(){
 
 function CustomerHomePage(props){
 
-    console.log(props.displayOption);
-    
-
     const [displayOption, setDisplayOption] = useState(props.displayOption);
     const [viewDetailState, setViewDetailState] = useState(initViewDetailState);
     const [showsubmitcomplete, setshowsubmitcomplete] = useState(props.showsubmitcomplete);

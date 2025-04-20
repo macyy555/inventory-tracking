@@ -1,5 +1,8 @@
 - fix image from db
 - enable filter function in employee page
 - update db for 
-    - employee: add/edit list
+    - employee: edit list (get employee info)
 - add search function
+
+Limitation
+- new product added will not have description/img => expect to be updated from Backend not by the user

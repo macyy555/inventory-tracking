@@ -6,6 +6,7 @@ import DisplayInDetails from '../../components/Employee/DisplayInDetails.jsx'
 import EditPage from "./EditPage.jsx";
 import clsx from 'clsx';
 import axios from 'axios'
+import SubmitListComplete from './SubmitListComplete.jsx'
 
 //retreive data from database
 const db_url = 'http://'+import.meta.env.VITE_DB_HOST+":"+import.meta.env.VITE_DB_EXP_PORT+"/employee";
@@ -16,10 +17,11 @@ const items_db = res.data.items.rows;
 const supplier = res.data.supplier.rows;
 const inventory = res.data.inventory.rows;
 
-function EmployeeHomePage(){
+function EmployeeHomePage(props){
 
     const [displayOption, setDisplayOption] = useState(0);
     const [viewEditPageState, setviewEditPageState] = useState(0)
+    const [showsubmitcomplete, setshowsubmitcomplete] = useState(props.showsubmitcomplete);
 
     function setDisplay(user_displayOption){
         console.log(user_displayOption); 
@@ -29,6 +31,10 @@ function EmployeeHomePage(){
     function setViewEditPage(user_viewEditPageOption){
         console.log(user_viewEditPageOption);
         setviewEditPageState(user_viewEditPageOption)
+    }
+
+    function setshowsubmitcompletestate(user_select){
+        setshowsubmitcomplete(user_select);
     }
 
     return(
@@ -67,6 +73,9 @@ function EmployeeHomePage(){
         </div>
         <div className={clsx(viewEditPageState ? "grid" : "hidden transition-discrete duration-150", "")}>
             <EditPage viewEditPageState={viewEditPageState} viewEditPage={setViewEditPage}/>
+        </div>
+        <div className={clsx(showsubmitcomplete ? "grid" : "hidden transition-discrete duration-150", "")}>
+            <SubmitListComplete setshowsubmitcomplete={setshowsubmitcompletestate} showsubmitcomplete={showsubmitcomplete}/>
         </div>
         </React.Fragment>
             

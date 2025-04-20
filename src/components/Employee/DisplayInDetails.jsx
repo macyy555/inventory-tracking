@@ -23,7 +23,7 @@ function DisplayInDetails(props){
             item[0].instock = item[0].instock + each_invent.instock           
         )
     }
-
+    
     return(
         <div className="bg-[#FAF2ED] mb-5 pb-5">
             <div className="flex justify-between">

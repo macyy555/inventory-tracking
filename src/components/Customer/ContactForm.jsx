@@ -36,7 +36,7 @@ function ContactForm(){
                     <label className="text-black" htmlFor="name">Name</label>
                     <input className="bg-white border-[#967761] border-1 rounded-s mt-3 p-1 shadow-xs text-black autofill:shadow-[inset_0_0_0px_1000px_rgb(255,255,255)] autofill:scheme-light" type="text" id="name" name="name" value={name} onChange={onNameChange} required/>
                     <label className="text-black mt-3" htmlFor="email">Email</label>
-                    <input className="bg-white border-[#967761] border-1 rounded-s mt-3 p-1 shadow-xs text-black autofill:shadow-[inset_0_0_0px_1000px_rgb(255,255,255)] autofill:scheme-light" type="text" id="email" name="email" value={email} onChange={onEmailChange}/>
+                    <input className="bg-white border-[#967761] border-1 rounded-s mt-3 p-1 shadow-xs text-black autofill:shadow-[inset_0_0_0px_1000px_rgb(255,255,255)] autofill:scheme-light" type="email" id="email" name="email" value={email} onChange={onEmailChange}/>
                     <label className="text-black mt-3" htmlFor="phone">Phone number</label>
                     <input className="bg-white border-[#967761] border-1 rounded-s mt-3 p-1 shadow-xs text-black autofill:shadow-[inset_0_0_0px_1000px_rgb(255,255,255)] autofill:scheme-light" type="text" id="phone" name="phone" value={phone} onChange={onPhoneChange}/>
                     <label className="text-black mt-3" htmlFor="lineID">Line ID</label>
