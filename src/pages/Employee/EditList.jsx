@@ -56,7 +56,7 @@ function EditList(props){
             <div className="bg-[#FAF2ED] rounded-xl">
                 
                 <form className="flex flex-col p-5 items-center" action={db_url} method="POST">
-                <table className="w-fit text-base text-left rtl:text-right bg-[#bda492]">
+                {/* <table className="w-fit text-base text-left rtl:text-right bg-[#bda492]">
                     <thead className="text-base text-white uppercase border-[#967761] border-1 bg-[#967761]">
                         <tr>
                             <th scope="col" className="italic pt-3 pl-3 pr-10">
@@ -124,8 +124,8 @@ function EditList(props){
                             </tbody>
                         ))
                     }
-                </table>
-                    {/* <label className="text-black" htmlFor="productname">Product name</label>
+                </table> */}
+                    <label className="text-black" htmlFor="productname">Product name</label>
                     <input className="bg-white border-[#967761] border-1 rounded-s mt-3 shadow-xs text-black autofill:shadow-[inset_0_0_0px_1000px_rgb(255,255,255)] autofill:scheme-light" type="text" id="productname" name="productname" value={productname} onChange={onproductnameChange} required/>
                     <label className="text-black mt-3" htmlFor="category">Category</label>
                     <input className="text-black bg-white border-[#967761] border-1 rounded-s mt-3 shadow-xs autofill:shadow-[inset_0_0_0px_1000px_rgb(255,255,255)] autofill:scheme-light" type="text" id="category" name="category" value={category} onChange={oncategoryChange}/>
@@ -142,7 +142,7 @@ function EditList(props){
                     <label className="text-black mt-3" htmlFor="capital_1pc">Capital (1 pc. in baht)</label>
                     <input className="bg-white border-[#967761] border-1 rounded-s mt-3 shadow-xs text-black autofill:shadow-[inset_0_0_0px_1000px_rgb(255,255,255)] autofill:scheme-light disabled:border-gray-200" type="number" id="capital1pc" name="capital1pc" value={capital1pc} disabled/>
                     <label className="text-black mt-3" htmlFor="sale_1pc">Sale prices (1 pc. in baht)</label>
-                    <input className="bg-white border-[#967761] border-1 rounded-s mt-3 shadow-xs text-black autofill:shadow-[inset_0_0_0px_1000px_rgb(255,255,255)] autofill:scheme-light" type="number" id="sale1pc" name="sale1pc" value={sale1pc} onChange={onsale1pcChange}/> */}
+                    <input className="bg-white border-[#967761] border-1 rounded-s mt-3 shadow-xs text-black autofill:shadow-[inset_0_0_0px_1000px_rgb(255,255,255)] autofill:scheme-light" type="number" id="sale1pc" name="sale1pc" value={sale1pc} onChange={onsale1pcChange}/>
                     <input className="bg-[#D99F7F] border-[#967761] w-fit px-10 py-1 mt-5 rounded-lg shadow-sm" type="submit" value="Submit"></input>
                 </form>
             </div>
