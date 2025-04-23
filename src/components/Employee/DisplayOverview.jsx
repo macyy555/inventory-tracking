@@ -19,7 +19,7 @@ function DisplayOverview(props){
 
     for (let item of items_display){
         inventory.filter(invent => invent.items_id == item[0].item.item_id).map( each_invent => 
-            item[0].instock = item[0].instock + each_invent.instock           
+            item[0].instock = parseInt(item[0].instock) + parseInt(each_invent.instock)          
         )
     }
 

@@ -34,7 +34,7 @@ function EditPage(props){
                     <AddList />
                 </div>
                 <div className={clsx(displayOption==1 ? "grid" : "hidden")}>
-                    <EditList />
+                    <EditList inventory={props.inventory} items_db={props.items_db} supplier_db={props.supplier_db} category_db={props.category_db}/>
                 </div>
             </div>
         </div>

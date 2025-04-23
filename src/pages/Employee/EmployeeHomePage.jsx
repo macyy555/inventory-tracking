@@ -11,7 +11,7 @@ import SubmitListComplete from './SubmitListComplete.jsx'
 //retreive data from database
 const db_url = 'http://'+import.meta.env.VITE_DB_HOST+":"+import.meta.env.VITE_DB_EXP_PORT+"/employee";
 const res = await axios.get(db_url);
-// console.log(res);
+console.log(res);
 const category = res.data.category.rows;
 const items_db = res.data.items.rows;
 const supplier = res.data.supplier.rows;
@@ -72,10 +72,10 @@ function EmployeeHomePage(props){
             </div>
         </div>
         <div className={clsx(viewEditPageState ? "grid" : "hidden transition-discrete duration-150", "")}>
-            <EditPage viewEditPageState={viewEditPageState} viewEditPage={setViewEditPage}/>
+            <EditPage viewEditPageState={viewEditPageState} viewEditPage={setViewEditPage} inventory={inventory} items_db={items_db} supplier_db={supplier} category_db={category}/>
         </div>
         <div className={clsx(showsubmitcomplete ? "grid" : "hidden transition-discrete duration-150", "")}>
-            <SubmitListComplete setshowsubmitcomplete={setshowsubmitcompletestate} showsubmitcomplete={showsubmitcomplete}/>
+            <SubmitListComplete setshowsubmitcomplete={setshowsubmitcompletestate} showsubmitcomplete={showsubmitcomplete} msg={props.msg}/>
         </div>
         </React.Fragment>
             
