@@ -96,7 +96,6 @@ function EditList(props){
                                         {each_invent.list_id}
                                     </th>
                                     <td className="pl-3 pr-3" contenteditable="true">
-                                        {/* {items_db.filter(item => item.item_id == each_invent.items_id)[0].name} */}
                                         {items_db.filter(item => item.item_id == each_invent.items_id)[0].name}
                                     </td>
                                     <td className="pl-3 pr-3" contenteditable="true">
