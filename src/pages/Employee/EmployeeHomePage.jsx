@@ -38,11 +38,11 @@ function EmployeeHomePage(props){
     }
 
     return(
-        <React.Fragment>
-        <div className="bg-[#967761] flex flex-col">
+        <div className="flex flex-col overflow-auto max-h-full">
+        <div className="bg-[#967761] flex flex-col overflow-auto">
             <CustomNavBar />
 
-            <div className="grid grid-cols-7 gap-4 min-h-[calc(100vh-80px)]">
+            <div className="grid grid-cols-7 gap-4 min-h-[calc(100vh-80px)] overflow-auto">
                 <div className="col-span-1">
                     <SideBar display={setDisplay} displayOption={displayOption} viewEditPageState={viewEditPageState} viewEditPage={setViewEditPage} category={category} items_db={items_db} supplier={supplier}/>
                 </div>
@@ -71,13 +71,13 @@ function EmployeeHomePage(props){
                 </div>
             </div>
         </div>
-        <div className={clsx(viewEditPageState ? "grid" : "hidden transition-discrete duration-150", "")}>
+        <div className={clsx(viewEditPageState ? "grid grid-cols-1 overflow-auto min-h-max scroll-auto h-auto" : "hidden transition-discrete duration-150", "")}>
             <EditPage viewEditPageState={viewEditPageState} viewEditPage={setViewEditPage} inventory={inventory} items_db={items_db} supplier_db={supplier} category_db={category}/>
         </div>
-        <div className={clsx(showsubmitcomplete ? "grid" : "hidden transition-discrete duration-150", "")}>
+        <div className={clsx(showsubmitcomplete ? "flex flex-row overflow-auto min-h-max" : "hidden transition-discrete duration-150", "")}>
             <SubmitListComplete setshowsubmitcomplete={setshowsubmitcompletestate} showsubmitcomplete={showsubmitcomplete} msg={props.msg}/>
         </div>
-        </React.Fragment>
+        </div>
             
     );
     

@@ -39,8 +39,8 @@ function AddList(){
     }
 
     return(
-        <div className="p-10"> 
-            <div className="bg-[#FAF2ED] rounded-xl">
+        <div className="flex flex-col p-10 mih-h-max h-auto"> 
+            <div className="bg-[#FAF2ED] rounded-xl flex flex-col mih-h-max">
                 <form className="flex flex-col p-5" action={db_url} method="POST">
                     <label className="text-black" htmlFor="productname">Product name</label>
                     <input className="text-black bg-white border-[#967761] border-1 rounded-s mt-3 shadow-xs autofill:shadow-[inset_0_0_0px_1000px_rgb(255,255,255)] autofill:scheme-light" type="text" id="productname" name="productname" value={productname} onChange={onproductnameChange} required/>

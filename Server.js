@@ -242,7 +242,7 @@ app.post('/employee/addlist', async (req, res) => {
   }
 });
 
-app.post('/employee/editlist', async (req, res) => {
+app.post('/employee/editlist/update', async (req, res) => {
   const productname = req.body.productname;
   const categoryname = req.body.category;
   const suppliername = req.body.supplier;

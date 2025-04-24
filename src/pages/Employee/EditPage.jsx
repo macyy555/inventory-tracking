@@ -22,18 +22,18 @@ function EditPage(props){
     }
 
     return(
-        <div className="bg-black/60 backdrop-opacity-25 backdrop-blur-sm fixed inset-0">
+        <div className="bg-black/60 backdrop-opacity-25 backdrop-blur-sm fixed inset-0 grid pb-20">
             <Typography className="font-medium text-3xl tracking-wide text-white justify-self-end py-8 px-20 w-10 cursor-pointer drop-shadow-sm mt-20" onClick={onCloseClick}>
             X</Typography>
-            <div className="bg-[#FAF2ED] w-3/5 h-max-fit grid justify-self-center">
-                <div className="flex flex-row-reverse">
+            <div className="bg-[#FAF2ED] w-3/5 grid justify-self-center min-h-max">
+                <div className="flex flex-row-reverse h-15">
                     <button className={clsx(displayOption==1 ? "text-black bg-[#FAF2ED]" : "text-white bg-[#ECE1D5]", "font-semibold py-3 px-5 justify-self-end")} onClick={onEditClick}>Edit</button>
                     <button className={clsx(displayOption==0 ? "text-black bg-[#FAF2ED]" : "text-white bg-[#ECE1D5]", "font-semibold py-3 px-5 justify-self-end")} onClick={onAddClick}>Add</button>
                 </div>
-                <div className={clsx(displayOption==0 ? "grid" : "hidden")}>
+                <div className={clsx(displayOption==0 ? "flex flex-row overflow-y-auto overflow-x-auto" : "hidden")}>
                     <AddList />
                 </div>
-                <div className={clsx(displayOption==1 ? "grid" : "hidden")}>
+                <div className={clsx(displayOption==1 ? "flex flex-row overflow-y-auto overflow-x-auto" : "hidden")}>
                     <EditList inventory={props.inventory} items_db={props.items_db} supplier_db={props.supplier_db} category_db={props.category_db}/>
                 </div>
             </div>

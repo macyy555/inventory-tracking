@@ -1,7 +1,9 @@
 - fix image from db
 - enable filter function in employee page
 - update db for 
-    - employee: edit list (get employee info)
+    - employee: add/edit list (get employee info)
+        - overflow for input box
+        - layout for edit page
 - add search function
 
 Limitation
