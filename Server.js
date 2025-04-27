@@ -252,54 +252,61 @@ app.post('/employee/editlist/update', async (req, res) => {
   const instock = req.body.instock;
   const defect = req.body.defect;
 
-  try {
-    //check if items exist -> if not -> don't allow editing
-    const items_db = await db.query('SELECT * FROM items');
-    const found_item = items_db.rows.filter(item => item.name == productname);
-    if(found_item.length>0){
-      //update category
-      //only add the new one
-      if(categoryname.length>0){
-        const category_db = await db.query('SELECT * FROM category WHERE name=$1', [categoryname]);
-        let cate_id = "";
-        if (category_db.rows.length>0){
-          cate_id = category_db.rows[0].cate_id;
-          console.log(`category ${cate_id}`);
-        } else {
-          //add category
-          await db.query('INSERT INTO category (name) VALUES ($1)', [categoryname]);
-          console.log("add category");
-          const get_cate_id = await db.query('SELECT cate_id FROM category WHERE name=$1',[categoryname]);
-          cate_id = get_cate_id.rows[0].cate_id;
-        }
-      }
+  // try {
+  //   //check if items exist -> if not -> don't allow editing
+  //   const items_db = await db.query('SELECT * FROM items');
+  //   const found_item = items_db.rows.filter(item => item.name == productname);
+  //   if(found_item.length>0){
+  //     //update category
+  //     //only add the new one
+  //     if(categoryname.length>0){
+  //       const category_db = await db.query('SELECT * FROM category WHERE name=$1', [categoryname]);
+  //       let cate_id = "";
+  //       if (category_db.rows.length>0){
+  //         cate_id = category_db.rows[0].cate_id;
+  //         console.log(`category ${cate_id}`);
+  //       } else {
+  //         //add category
+  //         await db.query('INSERT INTO category (name) VALUES ($1)', [categoryname]);
+  //         console.log("add category");
+  //         const get_cate_id = await db.query('SELECT cate_id FROM category WHERE name=$1',[categoryname]);
+  //         cate_id = get_cate_id.rows[0].cate_id;
+  //       }
+  //     }
 
-      //update supplier
-      //only add the new one
-      if(suppliername.length>0){
-        const supplier_db = await db.query('SELECT * FROM supplier WHERE name=$1',[suppliername]);
-        let sup_id = "";
-        if (supplier_db.rows.length>0){
-          sup_id = supplier_db.rows[0].sup_id;
-        } else {
-          await db.query('INSERT INTO supplier (name) VALUES ($1)',[suppliername]);
-          console.log("add supplier");
-          const get_sup_id = await db.query('SELECT sup_id FROM supplier WHERE name=$1', [suppliername]);
-          sup_id = get_sup_id.rows[0].sup_id;
-        }
-      }
+  //     //update supplier
+  //     //only add the new one
+  //     if(suppliername.length>0){
+  //       const supplier_db = await db.query('SELECT * FROM supplier WHERE name=$1',[suppliername]);
+  //       let sup_id = "";
+  //       if (supplier_db.rows.length>0){
+  //         sup_id = supplier_db.rows[0].sup_id;
+  //       } else {
+  //         await db.query('INSERT INTO supplier (name) VALUES ($1)',[suppliername]);
+  //         console.log("add supplier");
+  //         const get_sup_id = await db.query('SELECT sup_id FROM supplier WHERE name=$1', [suppliername]);
+  //         sup_id = get_sup_id.rows[0].sup_id;
+  //       }
+  //     }
 
       
 
-      res.redirect(client_origin+'/employee/submitlistcomplete?submitstatus=completed')
+  //     res.redirect(client_origin+'/employee/submitlistcomplete?submitstatus=completed')
 
-    } else {
-      res.redirect(client_origin+'/employee/submitlistcomplete?submitstatus=itemnotfound')
-    }
+  //   } else {
+  //     res.redirect(client_origin+'/employee/submitlistcomplete?submitstatus=itemnotfound')
+  //   }
 
-  } catch (err) {
-    console.log(err);
-  }
+  // } catch (err) {
+  //   console.log(err);
+  // }
+  console.log("submit receive");
+  
+  console.log(req.body);
+  console.log("above data");
+
+  res.send({submitstatus: "update completed"});
+  res.redirect(client_origin+'/employee/submitlistcomplete?submitstatus=completed')
 });
 
 app.listen(port, () => {

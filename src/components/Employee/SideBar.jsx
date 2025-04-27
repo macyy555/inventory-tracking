@@ -97,15 +97,15 @@ function SideBar(props){
             }
 
             <div className="mt-10 mx-3">
-                <Button className={clsx(props.displayOption==0 ? "bg-[#d19473] shadow-md outline-none" : "bg-[#D9B7A4]","w-full h-10 focus:bg-[#d19473] focus:shadow-md focus:outline-none")} onClick={onOverviewClick} autoFocus={true}>
+                <Button className={clsx(props.displayOption==0 ? "bg-[#d19473] shadow-md outline-none" : "bg-[#D9B7A4]","w-full h-10 focus:bg-[#d19473] focus:shadow-md focus:outline-none hover:bg-[#ce9678] hover:shadow-md hover:outline-none")} onClick={onOverviewClick} autoFocus={true}>
                 Overview</Button>
             </div>
             <div className="mt-4 mx-3">
-                <Button className={clsx(props.displayOption==1 ? "bg-[#d19473] shadow-md outline-none" : "bg-[#D9B7A4]","w-full h-10")} onClick={onInDetailsClick}>
+                <Button className={clsx(props.displayOption==1 ? "bg-[#d19473] shadow-md outline-none" : "bg-[#D9B7A4]","w-full h-10 hover:bg-[#ce9678] hover:shadow-md hover:outline-none")} onClick={onInDetailsClick}>
                 In Details</Button>
             </div>
             <div className="mt-4 mx-3 mb-10">
-                <Button className={clsx(props.viewEditPageState ? "bg-[#d19473] shadow-md outline-none" : "bg-[#D9B7A4]","w-full h-10")} onClick={onEditClick}>
+                <Button className={clsx(props.viewEditPageState ? "bg-[#d19473] shadow-md outline-none" : "bg-[#D9B7A4]","w-full h-10 hover:bg-[#ce9678] hover:shadow-md hover:outline-none")} onClick={onEditClick}>
                 Edit list</Button>
             </div>
         </div>

@@ -27,8 +27,8 @@ function EditPage(props){
             X</Typography>
             <div className="bg-[#FAF2ED] w-3/5 grid justify-self-center min-h-max">
                 <div className="flex flex-row-reverse h-15">
-                    <button className={clsx(displayOption==1 ? "text-black bg-[#FAF2ED]" : "text-white bg-[#ECE1D5]", "font-semibold py-3 px-5 justify-self-end")} onClick={onEditClick}>Edit</button>
-                    <button className={clsx(displayOption==0 ? "text-black bg-[#FAF2ED]" : "text-white bg-[#ECE1D5]", "font-semibold py-3 px-5 justify-self-end")} onClick={onAddClick}>Add</button>
+                    <button className={clsx(displayOption==1 ? "text-black bg-[#FAF2ED]" : "text-white bg-[#ECE1D5]", "font-semibold py-3 px-5 justify-self-end hover:bg-[#e9d8c6]")} onClick={onEditClick}>Edit</button>
+                    <button className={clsx(displayOption==0 ? "text-black bg-[#FAF2ED]" : "text-white bg-[#ECE1D5]", "font-semibold py-3 px-5 justify-self-end hover:bg-[#e9d8c6]")} onClick={onAddClick}>Add</button>
                 </div>
                 <div className={clsx(displayOption==0 ? "flex flex-row overflow-y-auto overflow-x-auto" : "hidden")}>
                     <AddList />

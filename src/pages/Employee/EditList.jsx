@@ -1,7 +1,12 @@
 import { Button, Navbar, Typography } from "@material-tailwind/react";
 import React, { useState} from "react";
+import ListInventory from "../../components/Employee/ListInventory";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function EditList(props){
+
+    const navigate = useNavigate()
 
     const db_url = 'http://'+import.meta.env.VITE_DB_HOST+":"+import.meta.env.VITE_DB_EXP_PORT;
     const default_url = db_url+"/employee/delete";
@@ -20,6 +25,8 @@ function EditList(props){
     const [capital, setcapital] = useState("");
     const [capital1pc, setcapital1pc] = useState("");
     const [sale1pc, setsale1pc] = useState("");
+
+    let inventoryList = [];
 
     function onproductnameChange(e){
         setproductname(e.target.value);
@@ -51,6 +58,28 @@ function EditList(props){
     function onsale1pcChange(e){
         setsale1pc(e.target.value);
     }
+
+    function inventoryChange(inventoryChangeData){
+        console.log(inventoryChangeData);
+        inventoryList.push(inventoryChangeData);
+        console.log(inventoryList); 
+    }
+
+    async function updateInventory(){
+        console.log("test update button");
+        // await axios.post(db_url+"/employee/editlist/update", JSON.stringify(inventoryList)).then( response => {
+        //     console.log(response);
+        //     if(response.data.submitstatus == "update completed"){
+        //         console.log("completed");
+        //         // navigate("/employee/submitlistcomplete", {submitstatus: "completed"});
+            
+                
+        //     }
+        // }).catch(error => {
+        //     console.log(error);
+        //   });
+        
+    }
         
     return(
         <div className="flex flex-col p-10 mih-h-max h-auto"> 
@@ -59,78 +88,45 @@ function EditList(props){
                 <table className="w-fit text-base text-left rtl:text-right bg-[#bda492]">
                     <thead className="text-base text-white uppercase border-[#967761] border-1 bg-[#967761]">
                         <tr>
-                            <th scope="col" className="italic pt-3 pl-3 pr-10">
+                            <th scope="col" className="italic pt-3 px-3">
                                 No.
                             </th>
-                            <th scope="col" className="italic pt-3 pl-3 pr-10">
+                            <th scope="col" className="italic pt-3 px-3">
                                 Product name
                             </th>
-                            <th scope="col" className="italic pt-3 pl-3 pr-10">
+                            <th scope="col" className="italic pt-3 px-3">
                                 Category
                             </th>
-                            <th scope="col" className="italic pt-3 pl-3 pr-10">
+                            <th scope="col" className="italic pt-3 px-3">
                                 Supplier
                             </th>
-                            <th scope="col" className="italic pt-3 pl-3 pr-10">
+                            <th scope="col" className="italic pt-3 px-3">
                                 Lot Order
                             </th>
-                            <th scope="col" className="italic pt-3 pl-3 pr-10">
+                            <th scope="col" className="italic pt-3 px-3">
                                 In Stock
                             </th>
-                            <th scope="col" className="italic pt-3 pl-3 pr-10">
+                            <th scope="col" className="italic pt-3 px-3">
                                 Defect
                             </th>
-                            <th scope="col" className="italic pt-3 pl-3 pr-10">
+                            <th scope="col" className="italic pt-3 px-3">
                                 (total) Capital
                             </th>
-                            <th scope="col" className="italic pt-3 pl-3 pr-10">
+                            <th scope="col" className="italic pt-3 px-3">
                                 Sales (1 pc.)
                             </th>
-                            <th scope="col" className="italic pt-3 pl-3 pr-10">
+                            <th scope="col" className="italic pt-3 px-3">
                                 Created On
                             </th>
                         </tr>
                     </thead>
                     {
                         inventory.map(each_invent => ( 
-                            <tbody>  
-                                <tr className="text-base text-black bg-white border-[#967761] border-1">
-                                    <th scope="row" className="pl-3 bg-[#bda492] text-white">
-                                        {each_invent.list_id}
-                                    </th>
-                                    <td className="pl-3 pr-3" contenteditable="true">
-                                        {items_db.filter(item => item.item_id == each_invent.items_id)[0].name}
-                                    </td>
-                                    <td className="pl-3 pr-3" contenteditable="true">
-                                        {category_db.filter(category => category.cate_id == (items_db.filter(item => item.item_id == each_invent.items_id)[0].cate_id))[0].name}
-                                    </td>
-                                    <td className="pl-3 pr-3" contenteditable="true">
-                                        {supplier_db.filter(sup=> sup.sup_id == each_invent.sup_id)[0].name}
-                                    </td>
-                                    <td className="pl-3 pr-3" contenteditable="true">
-                                        {each_invent.lot_order}
-                                    </td>
-                                    <td className="pl-3 pr-3" contenteditable="true">
-                                        {each_invent.instock}
-                                    </td>
-                                    <td className="pl-3 pr-3" contenteditable="true">
-                                        {each_invent.defect}
-                                    </td>
-                                    <td className="pl-3 pr-3" contenteditable="true">
-                                        {each_invent.capital}
-                                    </td>
-                                    <td className="pl-3 pr-3" contenteditable="true">
-                                        {each_invent.sale1pc}
-                                    </td>
-                                    <td className="pl-3 pr-3 bg-[#bda492] text-white">
-                                        {each_invent.createdat}
-                                    </td>
-                                </tr>
-                            </tbody>
+                            <ListInventory each_invent={each_invent} items_db={items_db} supplier_db={supplier_db} category_db={category_db} inventoryChange={inventoryChange}/>
                         ))
                     }
                 </table>
-                    <label className="text-black" htmlFor="productname">Product name</label>
+                    {/* <label className="text-black" htmlFor="productname">Product name</label>
                     <input className="bg-white border-[#967761] border-1 rounded-s mt-3 shadow-xs text-black autofill:shadow-[inset_0_0_0px_1000px_rgb(255,255,255)] autofill:scheme-light" type="text" id="productname" name="productname" value={productname} onChange={onproductnameChange} required/>
                     <label className="text-black mt-3" htmlFor="category">Category</label>
                     <input className="text-black bg-white border-[#967761] border-1 rounded-s mt-3 shadow-xs autofill:shadow-[inset_0_0_0px_1000px_rgb(255,255,255)] autofill:scheme-light" type="text" id="category" name="category" value={category} onChange={oncategoryChange}/>
@@ -147,11 +143,11 @@ function EditList(props){
                     <label className="text-black mt-3" htmlFor="capital_1pc">Capital (1 pc. in baht)</label>
                     <input className="bg-white border-[#967761] border-1 rounded-s mt-3 shadow-xs text-black autofill:shadow-[inset_0_0_0px_1000px_rgb(255,255,255)] autofill:scheme-light disabled:border-gray-200" type="number" id="capital1pc" name="capital1pc" value={capital1pc} disabled/>
                     <label className="text-black mt-3" htmlFor="sale_1pc">Sale prices (1 pc. in baht)</label>
-                    <input className="bg-white border-[#967761] border-1 rounded-s mt-3 shadow-xs text-black autofill:shadow-[inset_0_0_0px_1000px_rgb(255,255,255)] autofill:scheme-light" type="number" id="sale1pc" name="sale1pc" value={sale1pc} onChange={onsale1pcChange}/>
-                    <div className="grid grid-cols-3">
-                    <input className="bg-[#D99F7F] border-[#967761] w-fit px-10 py-1 mt-5 rounded-lg shadow-sm" type="submit" value="Update" formaction={db_url+"/employee/editlist/update"}></input>
-                    <input className="bg-[#D99F7F] border-[#967761] w-fit px-10 py-1 mt-5 rounded-lg shadow-sm" type="submit" value="Delele"></input>
-                    <input className="bg-[#D99F7F] border-[#967761] w-fit px-10 py-1 mt-5 rounded-lg shadow-sm" type="submit" value="Reset"></input>
+                    <input className="bg-white border-[#967761] border-1 rounded-s mt-3 shadow-xs text-black autofill:shadow-[inset_0_0_0px_1000px_rgb(255,255,255)] autofill:scheme-light" type="number" id="sale1pc" name="sale1pc" value={sale1pc} onChange={onsale1pcChange}/> */}
+                    <div className="grid grid-cols-3 justify-center justify-items-center gap-3">
+                    <Button className="bg-[#D99F7F] border-[#967761] w-full px-10 py-1 mt-5 rounded-lg shadow-md text-base hover:bg-[#d19473] hover:shadow-md hover:outline-none" type="submit" formaction={db_url+"/employee/editlist/update"} onClick={updateInventory}>Update</Button>
+                    <Button className="bg-[#D99F7F] border-[#967761] w-full px-10 py-1 mt-5 rounded-lg shadow-md text-base hover:bg-[#d19473] hover:shadow-md hover:outline-none" type="submit" formaction={db_url+"/employee/editlist/delete"}>Delete</Button>
+                    <Button className="bg-[#D99F7F] border-[#967761] w-full px-10 py-1 mt-5 rounded-lg shadow-md text-base hover:bg-[#d19473] hover:shadow-md hover:outline-none" type="submit" formaction={db_url+"/employee"}>Reset</Button>
                     </div>
                 </form>
             </div>
