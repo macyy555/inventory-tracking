@@ -9,7 +9,8 @@ function EditList(props){
     const navigate = useNavigate()
 
     const db_url = 'http://'+import.meta.env.VITE_DB_HOST+":"+import.meta.env.VITE_DB_EXP_PORT;
-    const default_url = db_url+"/employee/delete";
+    const default_url = db_url+"/employee/editlist/delete";
+    const client_origin = 'http://'+import.meta.env.VITE_CLIENT_HOST+":"+import.meta.env.VITE_CLIENT_PORT;
 
     const items_db = props.items_db;
     const inventory = props.inventory;
@@ -61,30 +62,34 @@ function EditList(props){
 
     function inventoryChange(inventoryChangeData){
         console.log(inventoryChangeData);
+        //remove old list_id before adding new one.
+        let duplicate_list = inventoryList.filter(list => list.list_id == inventoryChangeData.list_id); 
+        if (duplicate_list.length > 0){
+            inventoryList = inventoryList.filter(list => list.list_id != inventoryChangeData.list_id);
+            console.log("remove duplicated data");
+        }
         inventoryList.push(inventoryChangeData);
         console.log(inventoryList); 
     }
 
     async function updateInventory(){
         console.log("test update button");
-        // await axios.post(db_url+"/employee/editlist/update", JSON.stringify(inventoryList)).then( response => {
-        //     console.log(response);
-        //     if(response.data.submitstatus == "update completed"){
-        //         console.log("completed");
-        //         // navigate("/employee/submitlistcomplete", {submitstatus: "completed"});
-            
-                
-        //     }
-        // }).catch(error => {
-        //     console.log(error);
-        //   });
+        await axios.post(db_url+"/employee/editlist/update", JSON.stringify(inventoryList)).then( response => {
+            console.log(response);
+            if(response.data.submitstatus == "update completed"){
+                console.log("completed");
+                window.location.href=client_origin+"/employee/submitlistcomplete?submitstatus=completed";
+            }
+        }).catch(error => {
+            console.log(error);
+          });
         
     }
         
     return(
         <div className="flex flex-col p-10 mih-h-max h-auto"> 
             <div className="bg-[#FAF2ED] rounded-xl flex flex-col mih-h-max"> 
-                <form className="flex flex-col mih-h-max p-5 items-center" action={default_url} method="POST">
+                {/* <form className="flex flex-col mih-h-max p-5 items-center" action={default_url} method="POST"> */}
                 <table className="w-fit text-base text-left rtl:text-right bg-[#bda492]">
                     <thead className="text-base text-white uppercase border-[#967761] border-1 bg-[#967761]">
                         <tr>
@@ -144,12 +149,12 @@ function EditList(props){
                     <input className="bg-white border-[#967761] border-1 rounded-s mt-3 shadow-xs text-black autofill:shadow-[inset_0_0_0px_1000px_rgb(255,255,255)] autofill:scheme-light disabled:border-gray-200" type="number" id="capital1pc" name="capital1pc" value={capital1pc} disabled/>
                     <label className="text-black mt-3" htmlFor="sale_1pc">Sale prices (1 pc. in baht)</label>
                     <input className="bg-white border-[#967761] border-1 rounded-s mt-3 shadow-xs text-black autofill:shadow-[inset_0_0_0px_1000px_rgb(255,255,255)] autofill:scheme-light" type="number" id="sale1pc" name="sale1pc" value={sale1pc} onChange={onsale1pcChange}/> */}
-                    <div className="grid grid-cols-3 justify-center justify-items-center gap-3">
-                    <Button className="bg-[#D99F7F] border-[#967761] w-full px-10 py-1 mt-5 rounded-lg shadow-md text-base hover:bg-[#d19473] hover:shadow-md hover:outline-none" type="submit" formaction={db_url+"/employee/editlist/update"} onClick={updateInventory}>Update</Button>
-                    <Button className="bg-[#D99F7F] border-[#967761] w-full px-10 py-1 mt-5 rounded-lg shadow-md text-base hover:bg-[#d19473] hover:shadow-md hover:outline-none" type="submit" formaction={db_url+"/employee/editlist/delete"}>Delete</Button>
-                    <Button className="bg-[#D99F7F] border-[#967761] w-full px-10 py-1 mt-5 rounded-lg shadow-md text-base hover:bg-[#d19473] hover:shadow-md hover:outline-none" type="submit" formaction={db_url+"/employee"}>Reset</Button>
+                    <div className="flex flex-row justify-center gap-5">
+                    <Button className="bg-[#be6536] border-[#967761] w-fit px-10 py-1 mt-5 rounded-lg shadow-md text-base hover:bg-[#c0571f] hover:shadow-md hover:outline-none" type="submit" formAction={db_url+"/employee/editlist/update"} onClick={updateInventory}>Update</Button>
+                    <Button className="bg-[#D99F7F] border-[#967761] w-fit px-10 py-1 mt-5 rounded-lg shadow-md text-base hover:bg-[#d68d66] hover:shadow-md hover:outline-none" type="submit" formAction={db_url+"/employee/editlist/delete"}>Delete</Button>
+                    <Button className="bg-[#775745] border-[#967761] w-fit px-10 py-1 mt-5 rounded-lg shadow-md text-base hover:bg-[#6b4b38] hover:shadow-md hover:outline-none" type="submit" formAction={db_url+"/employee"}>Reset</Button>
                     </div>
-                </form>
+                {/* </form> */}
             </div>
             
         </div>

@@ -16,8 +16,8 @@ function SubmitListComplete(props){
 
     const navigate = useNavigate();
     const searchParams = new URLSearchParams(window.location.search);
-    if (searchParams.get("submitstatus") == "complete"){
-        msg = "Submit Complete";
+    if (searchParams.get("submitstatus") == "completed"){
+        msg = "Submit Completed";
     } else if (searchParams.get("submitstatus") == "itemnotfound"){
         msg = "Product not found";
     }

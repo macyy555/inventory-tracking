@@ -306,7 +306,7 @@ app.post('/employee/editlist/update', async (req, res) => {
   console.log("above data");
 
   res.send({submitstatus: "update completed"});
-  res.redirect(client_origin+'/employee/submitlistcomplete?submitstatus=completed')
+  
 });
 
 app.listen(port, () => {

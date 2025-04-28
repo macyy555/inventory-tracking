@@ -68,7 +68,7 @@ function ListInventory(props){
                     <input className="w-25" type="text" name="instock" value={instock}/>
                 </td>
                 <td className="pl-3 px-3" contenteditable="true" onChange={ondefectChange}>
-                    <input className="w-25" type="text" name="defect" value={defect}/>
+                    <input className="w-15" type="text" name="defect" value={defect}/>
                 </td>
                 <td className="pl-3 px-3" contenteditable="true" onChange={oncapitalChange}>
                     <input className="w-25" type="text" name="capital" value={capital}/>
