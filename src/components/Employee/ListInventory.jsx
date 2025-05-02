@@ -1,4 +1,4 @@
-import { Button, Navbar, Typography } from "@material-tailwind/react";
+import { Button, list, Navbar, Typography } from "@material-tailwind/react";
 import React, { useState} from "react";
 
 function ListInventory(props){
@@ -18,6 +18,7 @@ function ListInventory(props){
     const [sale1pc, setsale1pc] = useState(each_invent.sale1pc);
 
     let inventory = {"list_id": each_invent.list_id, "productname": productname, "category": category, "supplier": supplier, "lot_order": lot_order, "instock": instock, "defect": defect, "capital": capital, "sale1pc": sale1pc};
+    let deleteList = []
 
     function onproductnameChange(e){
         setproductname(e.target.value);
@@ -60,9 +61,21 @@ function ListInventory(props){
         props.inventoryChange(inventory);
     }
 
+    function SelectList(e){
+        if (document.getElementById(e.target.id).checked){
+            props.deleteListChange(e.target.id, "delete");
+        }
+        else{
+            props.deleteListChange(e.target.id, "");
+        }
+    }
+
     return (
         <tbody>  
             <tr className="text-base text-black bg-white border-[#967761] border-1">
+                <td className="pl-3 px-3 bg-[#bda492]">
+                    <input className="w-4 h-4 accent-white border-gray-500 border-4 scheme-light" type="checkbox" id={each_invent.list_id} onClick={SelectList}/>
+                </td>
                 <th scope="row" className="pl-3 bg-[#bda492] text-white">
                     <input className="w-5" type="text" name="list_id" value={each_invent.list_id} disabled/>
                 </th>

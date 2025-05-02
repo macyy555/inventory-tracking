@@ -66,8 +66,9 @@ app.get('/customer', async (req, res) => {
 });
 
 app.get('/employee', async (req, res) => {
+  reloadDataEmployee = req.query.reload;
   //retrieve category
-  if (category.rows.length && !reloadDataEmployee){
+  if (category.rows.length && !reloadDataEmployee) {
     console.log("category in cache");
   } else {
     try {
@@ -301,8 +302,24 @@ app.put('/employee/editlist/update', async (req, res) => {
 
 });
 
-app.delete('/employee/editlist/delete', async (req, res) => {
+app.put('/employee/editlist/delete', async (req, res) => {  
+  // Process of extraction
+  const extractedData = Object.keys(req.body).map(key => JSON.parse(`[${key}]`))[0];
+  console.log(extractedData);
 
+  try {
+    extractedData.forEach(async (list_id) => {
+      //delete from inventory
+      await db.query('DELETE FROM inventory WHERE list_id=$1', [list_id]);
+    });
+
+    reloadDataCustomer = true;
+    reloadDataEmployee = true;
+    res.send({submitstatus: "delete completed"});
+  } catch (err) {
+    console.log(err);
+  }
+  
 });
 
 app.listen(port, () => {

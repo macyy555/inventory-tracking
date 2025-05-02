@@ -10,11 +10,12 @@ function EditList(props){
     const default_url = db_url+"/employee/editlist/delete";
     const client_origin = 'http://'+import.meta.env.VITE_CLIENT_HOST+":"+import.meta.env.VITE_CLIENT_PORT;
 
-    const items_db = props.items_db;
-    const inventory = props.inventory;
-    const supplier_db = props.supplier_db;
-    const category_db = props.category_db;
+    let items_db = props.items_db;
+    let inventory = props.inventory;
+    let supplier_db = props.supplier_db;
+    let category_db = props.category_db;
     let inventoryList = [];
+    let deleteList = [];
 
     function inventoryChange(inventoryChangeData){
         console.log(inventoryChangeData);
@@ -26,6 +27,16 @@ function EditList(props){
         }
         inventoryList.push(inventoryChangeData);
         console.log(inventoryList); 
+    }
+
+    function deleteListChange(deleteListData, status){
+        console.log(deleteListData);
+        if (status == "delete"){
+            deleteList.push(deleteListData);
+        } else {
+            deleteList = deleteList.filter(list => list !== deleteListData);
+        }
+        console.log(deleteList);
     }
 
     async function updateInventory(){
@@ -41,7 +52,32 @@ function EditList(props){
           });
     }
 
-    
+    async function deleteInventory(){
+        console.log("test delete button");
+        await axios.put(db_url+"/employee/editlist/delete", JSON.stringify(deleteList)).then( response => {
+            console.log(response);
+            if(response.data.submitstatus == "delete completed"){
+                console.log("completed");
+                window.location.href=client_origin+"/employee/submitlistcomplete?submitstatus=completed";
+            }
+        }).catch(error => {
+            console.log(error);
+          });
+    }
+
+    async function resetInventory(){
+        console.log("test reset button");
+        await axios.get(db_url+"/employee", { params: { reload: true } }).then( res => {
+            console.log(res);
+            category = res.data.category.rows;
+            items_db = res.data.items.rows;
+            supplier = res.data.supplier.rows;
+            inventory = res.data.inventory.rows;
+        }).catch(error => {
+            console.log(error);
+          });
+    }
+
         
     return(
         <div className="flex flex-col p-10 mih-h-max h-auto"> 
@@ -50,6 +86,9 @@ function EditList(props){
                 <table className="w-fit text-base text-left rtl:text-right bg-[#bda492]">
                     <thead className="text-base text-white uppercase border-[#967761] border-1 bg-[#967761]">
                         <tr>
+                            <th scope="col" className="italic pt-3 px-3">
+                                Select (for delete)
+                            </th>
                             <th scope="col" className="italic pt-3 px-3">
                                 No.
                             </th>
@@ -84,14 +123,14 @@ function EditList(props){
                     </thead>
                     {
                         inventory.map(each_invent => ( 
-                            <ListInventory each_invent={each_invent} items_db={items_db} supplier_db={supplier_db} category_db={category_db} inventoryChange={inventoryChange}/>
+                            <ListInventory each_invent={each_invent} items_db={items_db} supplier_db={supplier_db} category_db={category_db} inventoryChange={inventoryChange} deleteListChange={deleteListChange}/>
                         ))
                     }
                 </table>
                     <div className="flex flex-row justify-center gap-5">
                     <Button className="bg-[#be6536] border-[#967761] w-fit px-10 py-1 mt-5 rounded-lg shadow-md text-base hover:bg-[#c0571f] hover:shadow-md hover:outline-none" type="submit" formAction={db_url+"/employee/editlist/update"} onClick={updateInventory}>Update</Button>
-                    <Button className="bg-[#D99F7F] border-[#967761] w-fit px-10 py-1 mt-5 rounded-lg shadow-md text-base hover:bg-[#d68d66] hover:shadow-md hover:outline-none" type="submit" formAction={db_url+"/employee/editlist/delete"}>Delete</Button>
-                    <Button className="bg-[#775745] border-[#967761] w-fit px-10 py-1 mt-5 rounded-lg shadow-md text-base hover:bg-[#6b4b38] hover:shadow-md hover:outline-none" type="submit" formAction={db_url+"/employee"}>Reset</Button>
+                    <Button className="bg-[#D99F7F] border-[#967761] w-fit px-10 py-1 mt-5 rounded-lg shadow-md text-base hover:bg-[#d68d66] hover:shadow-md hover:outline-none" type="submit" formAction={db_url+"/employee/editlist/delete"} onClick={deleteInventory}>Delete</Button>
+                    <Button className="bg-[#775745] border-[#967761] w-fit px-10 py-1 mt-5 rounded-lg shadow-md text-base hover:bg-[#6b4b38] hover:shadow-md hover:outline-none" type="submit" formAction={db_url+"/employee"} onClick={resetInventory}>Reset</Button>
                     </div>
                 {/* </form> */}
             </div>
