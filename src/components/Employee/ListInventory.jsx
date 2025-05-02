@@ -26,24 +26,38 @@ function ListInventory(props){
     }
     function oncategoryChange(e){
         setcategory(e.target.value);
+        inventory["category"] = e.target.value;
+        props.inventoryChange(inventory);
     }
     function onsupplierChange(e){
         setsupplier(e.target.value);
+        inventory["supplier"] = e.target.value;
+        props.inventoryChange(inventory);
     }
     function onlot_orderChange(e){
         setlot_order(e.target.value);
+        inventory["lot_order"] = e.target.value;
+        props.inventoryChange(inventory);
     }
     function oninstockChange(e){
         setinstock(e.target.value);
+        inventory["instock"] = e.target.value;
+        props.inventoryChange(inventory);
     }
     function ondefectChange(e){
         setdefect(e.target.value);
+        inventory["defect"] = e.target.value;
+        props.inventoryChange(inventory);
     }
     function oncapitalChange(e){
         setcapital(e.target.value);
+        inventory["capital"] = e.target.value;
+        props.inventoryChange(inventory);
     }
     function onsale1pcChange(e){
         setsale1pc(e.target.value);
+        inventory["sale1pc"] = e.target.value;
+        props.inventoryChange(inventory);
     }
 
     return (

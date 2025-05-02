@@ -12,7 +12,7 @@ const db = new pg.Client({
   user: process.env.VITE_DB_USER,
   host: process.env.VITE_DB_HOST,
   database: process.env.VITE_DB_NAME,
-  password: process.env.VITE_DB_PASS,
+  password: process.env.VITE_DB_PASSWORD,
   port: process.env.VITE_DB_PORT,
 });
 db.connect();
@@ -34,13 +34,16 @@ let items = {rows: []};
 let supplier = {rows: []};
 let teams = {rows: []};
 
+let reloadDataCustomer = true;
+let reloadDataEmployee = true;
+
 app.get('/customer', async (req, res) => {
   //retrieve category
-  if (category.rows.length){
+  if (category.rows.length && !reloadDataCustomer){
     console.log("category in cache");
   } else {
     try {
-      category = await db.query("SELECT * FROM category");
+      category = await db.query("SELECT * FROM category ORDER BY cate_id ASC");
       // console.log(category.rows);
     } catch (err) {
       console.log(err);
@@ -48,27 +51,27 @@ app.get('/customer', async (req, res) => {
   }
 
   //retrieve items
-  if (items.rows.length){
+  if (items.rows.length && !reloadDataCustomer){
     console.log("items in cache");
   } else {
     try {
-      items = await db.query("SELECT * FROM items");
+      items = await db.query("SELECT * FROM items ORDER BY item_id ASC");
       // console.log(items.rows);
     } catch (err) {
       console.log(err);
     }
   }
-
+  reloadDataCustomer = false;
   res.send({category: category, items: items});
 });
 
 app.get('/employee', async (req, res) => {
   //retrieve category
-  if (category.rows.length){
+  if (category.rows.length && !reloadDataEmployee){
     console.log("category in cache");
   } else {
     try {
-      category = await db.query("SELECT * FROM category");
+      category = await db.query("SELECT * FROM category ORDER BY cate_id ASC");
       // console.log(category.rows);
     } catch (err) {
       console.log(err);
@@ -76,11 +79,11 @@ app.get('/employee', async (req, res) => {
   }
 
   //retrieve items
-  if (items.rows.length){
+  if (items.rows.length && !reloadDataEmployee){
     console.log("items in cache");
   } else {
     try {
-      items = await db.query("SELECT * FROM items");
+      items = await db.query("SELECT * FROM items ORDER BY item_id ASC");
       // console.log(items.rows);
     } catch (err) {
       console.log(err);
@@ -88,29 +91,31 @@ app.get('/employee', async (req, res) => {
   }
 
   //retrieve inventory
-  if (inventory.rows.length){
+  if (inventory.rows.length && !reloadDataEmployee){
     console.log("inventory in cache");
   } else {
     try {
-      inventory = await db.query("SELECT * FROM inventory");
-      // console.log(inventory.rows);
+      inventory = await db.query("SELECT * FROM inventory ORDER BY list_id ASC");
+      console.log("inventory in db");
+      
+      console.log(inventory.rows);
     } catch (err) {
       console.log(err);
     }
   }
 
   //retrieve supplier
-  if (supplier.rows.length){
+  if (supplier.rows.length && !reloadDataEmployee){
     console.log("supplier in cache");
   } else {
     try {
-      supplier = await db.query("SELECT * FROM supplier");
+      supplier = await db.query("SELECT * FROM supplier ORDER BY sup_id ASC");
       // console.log(supplier.rows);
     } catch (err) {
       console.log(err);
     }
   }
-  
+  reloadDataEmployee = false;
   res.send({category: category, items: items, inventory: inventory, supplier: supplier});
 });
 
@@ -235,6 +240,9 @@ app.post('/employee/addlist', async (req, res) => {
     await db.query('INSERT INTO inventory (items_id, sup_id, lot_order, defect, instock, capital, sale1pc, createdat, createdby) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)',
       [item_id, sup_id, lot_order, 0, lot_order, capital, sale1pc, new Date(), 123456]);
     console.log("add inventory");
+    
+    reloadDataCustomer = true;
+    reloadDataEmployee = true;
 
     res.redirect(client_origin+'/employee/submitlistcomplete/?submitstatus=completed')
   } catch (err) {
@@ -242,71 +250,59 @@ app.post('/employee/addlist', async (req, res) => {
   }
 });
 
-app.post('/employee/editlist/update', async (req, res) => {
-  const productname = req.body.productname;
-  const categoryname = req.body.category;
-  const suppliername = req.body.supplier;
-  const lot_order = req.body.lot_order;
-  const capital = req.body.capital;
-  const sale1pc = req.body.sale1pc;
-  const instock = req.body.instock;
-  const defect = req.body.defect;
-
-  // try {
-  //   //check if items exist -> if not -> don't allow editing
-  //   const items_db = await db.query('SELECT * FROM items');
-  //   const found_item = items_db.rows.filter(item => item.name == productname);
-  //   if(found_item.length>0){
-  //     //update category
-  //     //only add the new one
-  //     if(categoryname.length>0){
-  //       const category_db = await db.query('SELECT * FROM category WHERE name=$1', [categoryname]);
-  //       let cate_id = "";
-  //       if (category_db.rows.length>0){
-  //         cate_id = category_db.rows[0].cate_id;
-  //         console.log(`category ${cate_id}`);
-  //       } else {
-  //         //add category
-  //         await db.query('INSERT INTO category (name) VALUES ($1)', [categoryname]);
-  //         console.log("add category");
-  //         const get_cate_id = await db.query('SELECT cate_id FROM category WHERE name=$1',[categoryname]);
-  //         cate_id = get_cate_id.rows[0].cate_id;
-  //       }
-  //     }
-
-  //     //update supplier
-  //     //only add the new one
-  //     if(suppliername.length>0){
-  //       const supplier_db = await db.query('SELECT * FROM supplier WHERE name=$1',[suppliername]);
-  //       let sup_id = "";
-  //       if (supplier_db.rows.length>0){
-  //         sup_id = supplier_db.rows[0].sup_id;
-  //       } else {
-  //         await db.query('INSERT INTO supplier (name) VALUES ($1)',[suppliername]);
-  //         console.log("add supplier");
-  //         const get_sup_id = await db.query('SELECT sup_id FROM supplier WHERE name=$1', [suppliername]);
-  //         sup_id = get_sup_id.rows[0].sup_id;
-  //       }
-  //     }
-
-      
-
-  //     res.redirect(client_origin+'/employee/submitlistcomplete?submitstatus=completed')
-
-  //   } else {
-  //     res.redirect(client_origin+'/employee/submitlistcomplete?submitstatus=itemnotfound')
-  //   }
-
-  // } catch (err) {
-  //   console.log(err);
-  // }
-  console.log("submit receive");
+app.put('/employee/editlist/update', async (req, res) => {
   
-  console.log(req.body);
-  console.log("above data");
+  // Process of extraction
+  const extractedData = Object.keys(req.body).map(key => JSON.parse(`[${key}]`))[0];
+  console.log(extractedData);
 
-  res.send({submitstatus: "update completed"});
-  
+  try {
+
+    extractedData.forEach(async (item) => {
+      const list_id = item.list_id;
+      const productname = item.productname;
+      const categoryname = item.category;
+      const suppliername = item.supplier;
+      const lot_order = item.lot_order;
+      const capital = item.capital;
+      const sale1pc = item.sale1pc;
+      const instock = item.instock;
+      const defect = item.defect;
+
+      //get item_id, cate_id, and sup_id
+      const all_id = await db.query('SELECT items_id, sup_id FROM inventory WHERE list_id=$1', [list_id]);
+      //get cate_id
+      const cate_id = await db.query('SELECT cate_id FROM items WHERE item_id=$1', [all_id.rows[0].items_id]);
+
+      //update items
+      await db.query('UPDATE items SET name=$1 WHERE item_id=$2',
+        [productname, all_id.rows[0].items_id]);
+      //update category
+      await db.query('UPDATE category SET name=$1 WHERE cate_id=$2',
+        [categoryname, cate_id.rows[0].cate_id]);
+      //update supplier
+      await db.query('UPDATE supplier SET name=$1 WHERE sup_id=$2',
+        [suppliername, all_id.rows[0].sup_id]);
+
+      //update inventory
+      await db.query('UPDATE inventory SET lot_order=$1, instock=$2, defect=$3, capital=$4, sale1pc=$5 WHERE list_id=$6',
+        [lot_order, instock, defect, capital, sale1pc, list_id]);
+
+      console.log(`update ${item}`);
+    });
+
+    reloadDataCustomer = true;
+    reloadDataEmployee = true;
+    res.send({submitstatus: "update completed"});
+
+  } catch (err) {
+    console.log(err);
+  }
+
+});
+
+app.delete('/employee/editlist/delete', async (req, res) => {
+
 });
 
 app.listen(port, () => {

@@ -6,8 +6,6 @@ import { useNavigate } from "react-router-dom";
 
 function EditList(props){
 
-    const navigate = useNavigate()
-
     const db_url = 'http://'+import.meta.env.VITE_DB_HOST+":"+import.meta.env.VITE_DB_EXP_PORT;
     const default_url = db_url+"/employee/editlist/delete";
     const client_origin = 'http://'+import.meta.env.VITE_CLIENT_HOST+":"+import.meta.env.VITE_CLIENT_PORT;
@@ -16,49 +14,7 @@ function EditList(props){
     const inventory = props.inventory;
     const supplier_db = props.supplier_db;
     const category_db = props.category_db;
-    
-    const [productname, setproductname] = useState("");
-    const [category, setcategory] = useState("");
-    const [supplier, setsupplier] = useState("");
-    const [lot_order, setlot_order] = useState("");
-    const [instock, setinstock] = useState("");
-    const [defect, setdefect] = useState("");
-    const [capital, setcapital] = useState("");
-    const [capital1pc, setcapital1pc] = useState("");
-    const [sale1pc, setsale1pc] = useState("");
-
     let inventoryList = [];
-
-    function onproductnameChange(e){
-        setproductname(e.target.value);
-    }
-    function oncategoryChange(e){
-        setcategory(e.target.value);
-    }
-    function onsupplierChange(e){
-        setsupplier(e.target.value);
-    }
-    function onlot_orderChange(e){
-        setlot_order(e.target.value);
-        if (!isNaN(document.getElementById("capital").value/document.getElementById("lot_order").value)){
-            setcapital1pc(document.getElementById("capital").value/document.getElementById("lot_order").value)
-        }
-    }
-    function oninstockChange(e){
-        setinstock(e.target.value);
-    }
-    function ondefectChange(e){
-        setdefect(e.target.value);
-    }
-    function oncapitalChange(e){
-        setcapital(e.target.value);
-        if (!isNaN(document.getElementById("capital").value/document.getElementById("lot_order").value)){
-            setcapital1pc(document.getElementById("capital").value/document.getElementById("lot_order").value)
-        }
-    }
-    function onsale1pcChange(e){
-        setsale1pc(e.target.value);
-    }
 
     function inventoryChange(inventoryChangeData){
         console.log(inventoryChangeData);
@@ -74,7 +30,7 @@ function EditList(props){
 
     async function updateInventory(){
         console.log("test update button");
-        await axios.post(db_url+"/employee/editlist/update", JSON.stringify(inventoryList)).then( response => {
+        await axios.put(db_url+"/employee/editlist/update", JSON.stringify(inventoryList)).then( response => {
             console.log(response);
             if(response.data.submitstatus == "update completed"){
                 console.log("completed");
@@ -83,8 +39,9 @@ function EditList(props){
         }).catch(error => {
             console.log(error);
           });
-        
     }
+
+    
         
     return(
         <div className="flex flex-col p-10 mih-h-max h-auto"> 
@@ -131,24 +88,6 @@ function EditList(props){
                         ))
                     }
                 </table>
-                    {/* <label className="text-black" htmlFor="productname">Product name</label>
-                    <input className="bg-white border-[#967761] border-1 rounded-s mt-3 shadow-xs text-black autofill:shadow-[inset_0_0_0px_1000px_rgb(255,255,255)] autofill:scheme-light" type="text" id="productname" name="productname" value={productname} onChange={onproductnameChange} required/>
-                    <label className="text-black mt-3" htmlFor="category">Category</label>
-                    <input className="text-black bg-white border-[#967761] border-1 rounded-s mt-3 shadow-xs autofill:shadow-[inset_0_0_0px_1000px_rgb(255,255,255)] autofill:scheme-light" type="text" id="category" name="category" value={category} onChange={oncategoryChange}/>
-                    <label className="text-black mt-3" htmlFor="supplier">Supplier</label>
-                    <input className="bg-white border-[#967761] border-1 rounded-s mt-3 shadow-xs text-black autofill:shadow-[inset_0_0_0px_1000px_rgb(255,255,255)] autofill:scheme-light" type="text" id="supplier" name="supplier" value={supplier} onChange={onsupplierChange}/>
-                    <label className="text-black mt-3" htmlFor="lot_amount">Lot Order (amount in pieces)</label>
-                    <input className="bg-white border-[#967761] border-1 rounded-s mt-3 shadow-xs text-black autofill:shadow-[inset_0_0_0px_1000px_rgb(255,255,255)] autofill:scheme-light" type="number" id="lot_order" name="lot_order" value={lot_order} onChange={onlot_orderChange}/>
-                    <label className="text-black mt-3" htmlFor="in_stock">In Stock</label>
-                    <input className="bg-white border-[#967761] border-1 rounded-s mt-3 shadow-xs text-black autofill:shadow-[inset_0_0_0px_1000px_rgb(255,255,255)] autofill:scheme-light" type="number" id="instock" name="instock" value={instock} onChange={oninstockChange}/>
-                    <label className="text-black mt-3" htmlFor="defect">Defect</label>
-                    <input className="bg-white border-[#967761] border-1 rounded-s mt-3 shadow-xs text-black autofill:shadow-[inset_0_0_0px_1000px_rgb(255,255,255)] autofill:scheme-light" type="number" id="defect" name="defect" value={defect} onChange={ondefectChange}/>
-                    <label className="text-black mt-3" htmlFor="capital">Capital (total in baht)</label>
-                    <input className="bg-white border-[#967761] border-1 rounded-s mt-3 shadow-xs text-black autofill:shadow-[inset_0_0_0px_1000px_rgb(255,255,255)] autofill:scheme-light" type="number" id="capital" name="capital" value={capital} onChange={oncapitalChange}/>
-                    <label className="text-black mt-3" htmlFor="capital_1pc">Capital (1 pc. in baht)</label>
-                    <input className="bg-white border-[#967761] border-1 rounded-s mt-3 shadow-xs text-black autofill:shadow-[inset_0_0_0px_1000px_rgb(255,255,255)] autofill:scheme-light disabled:border-gray-200" type="number" id="capital1pc" name="capital1pc" value={capital1pc} disabled/>
-                    <label className="text-black mt-3" htmlFor="sale_1pc">Sale prices (1 pc. in baht)</label>
-                    <input className="bg-white border-[#967761] border-1 rounded-s mt-3 shadow-xs text-black autofill:shadow-[inset_0_0_0px_1000px_rgb(255,255,255)] autofill:scheme-light" type="number" id="sale1pc" name="sale1pc" value={sale1pc} onChange={onsale1pcChange}/> */}
                     <div className="flex flex-row justify-center gap-5">
                     <Button className="bg-[#be6536] border-[#967761] w-fit px-10 py-1 mt-5 rounded-lg shadow-md text-base hover:bg-[#c0571f] hover:shadow-md hover:outline-none" type="submit" formAction={db_url+"/employee/editlist/update"} onClick={updateInventory}>Update</Button>
                     <Button className="bg-[#D99F7F] border-[#967761] w-fit px-10 py-1 mt-5 rounded-lg shadow-md text-base hover:bg-[#d68d66] hover:shadow-md hover:outline-none" type="submit" formAction={db_url+"/employee/editlist/delete"}>Delete</Button>

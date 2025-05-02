@@ -2,8 +2,10 @@
 - enable filter function in employee page
 - update db for 
     - employee: add/edit list (get employee info)
-        - overflow for input box
-        - layout for edit page
+        -edit page  
+            -delelte function
+            -reset function
+            -count list id from the last one
 - add search function
 
 Limitation
