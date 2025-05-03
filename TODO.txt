@@ -1,4 +1,3 @@
-- fix image from db
 - enable filter function in employee page
 - update db for 
     - employee: add/edit list (get employee info)

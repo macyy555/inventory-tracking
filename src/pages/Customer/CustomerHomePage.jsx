@@ -20,7 +20,8 @@ const items_db = res.data.items.rows;
 
 
 function initViewDetailState(){
-    return {viewDetail: false, product: [{ name: "A", description: "xxxxx"}]};
+    
+    return {viewDetail: false, product: [items_db[0]]};
 }
 
 function CustomerHomePage(props){

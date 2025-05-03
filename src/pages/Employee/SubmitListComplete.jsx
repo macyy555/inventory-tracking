@@ -1,5 +1,4 @@
 import { Button, Navbar, Typography } from "@material-tailwind/react";
-import Film1 from "../../assets/Products/Film/Film1.png"
 import React, { useState, useReducer } from "react";
 import clsx from 'clsx';
 import { Link } from "react-router-dom";

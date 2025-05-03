@@ -1,12 +1,9 @@
 import { Button, Navbar, Typography } from "@material-tailwind/react";
 import leftimg from "../../assets/left.png";
-import film1img from "../../assets/Products/Film/Film1.png";
-import film2img from "../../assets/Products/Film/Film2.png";
-import film3img from "../../assets/Products/Film/Film3.png";
-import film4img from "../../assets/Products/Film/Film4.png";
-import film5img from "../../assets/Products/Film/Film5.png";
 import React, { useState, useReducer } from "react";
 import clsx from 'clsx';
+import { fromByteArray } from 'base64-js';
+import Film1 from "../../assets/Products/Film/Kodak color plus.png"
 
 function DisplayAll(props){
 
@@ -42,7 +39,7 @@ function DisplayAll(props){
             {
                 items.map(item => (
                     <div className="p-3 justify-items-center cursor-pointer" onClick={onViewDetailClick} id={item.name}>
-                        <img src={film1img} alt="A" width="100" height="100" id={item.name}/>
+                        <img src={item.img == null ? Film1 : `data:image/png;base64,${fromByteArray(new Uint8Array(item.img.data))}`} alt="A" width="100" height="100" id={item.name}/>
                         <Typography className="font-medium text-l mt-3 tracking-wide text-black" id={item.name}>
                         {item.name}</Typography>
                     </div>

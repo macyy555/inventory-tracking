@@ -3,10 +3,14 @@ import filmimg from "../../assets/film-roll.png";
 import { Button, Navbar, Typography } from "@material-tailwind/react";
 import React, { useState, useReducer } from "react";
 import clsx from 'clsx';
+import { fromByteArray } from 'base64-js';
 
 function ProductSideBarElement(props){
 
     const items = props.items;
+    console.log(props.category.img);
+    
+    const cate_img = `data:image/png;base64,${fromByteArray(new Uint8Array(props.category.img.data))}`; // Use base64-js
 
     const [expand, setExpand] = useState(true);
     
@@ -31,7 +35,7 @@ function ProductSideBarElement(props){
         <div className="w-full mt-2 ml-1 flex flex-row justify-between">
             <div className="flex flex-row">
                 <input className="ml-3 w-6 h-6 accent-white border-gray-500 border-4 scheme-light" type="checkbox" id={props.category.name} onClick={onCategoryClick}/>
-                <img className="ml-1" src={filmimg} alt="A" width="25" height="15" />
+                <img className="ml-1" src={cate_img} alt="A" width="25" height="15" />
                 <Typography className="ml-1 font-medium text-l tracking-wide text-black">
                 {props.category.name}</Typography>
             </div>
