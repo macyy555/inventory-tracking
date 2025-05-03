@@ -10,10 +10,11 @@ function EditList(props){
     const default_url = db_url+"/employee/editlist/delete";
     const client_origin = 'http://'+import.meta.env.VITE_CLIENT_HOST+":"+import.meta.env.VITE_CLIENT_PORT;
 
-    let items_db = props.items_db;
-    let inventory = props.inventory;
-    let supplier_db = props.supplier_db;
-    let category_db = props.category_db;
+    const [refresh, setRefresh] = useState(false);
+    const items_db = props.items_db;
+    const inventory = props.inventory;
+    const supplier_db = props.supplier_db;
+    const category_db = props.category_db;
     let inventoryList = [];
     let deleteList = [];
 
@@ -66,16 +67,11 @@ function EditList(props){
     }
 
     async function resetInventory(){
+        setRefresh(!refresh);
         console.log("test reset button");
-        await axios.get(db_url+"/employee", { params: { reload: true } }).then( res => {
-            console.log(res);
-            category = res.data.category.rows;
-            items_db = res.data.items.rows;
-            supplier = res.data.supplier.rows;
-            inventory = res.data.inventory.rows;
-        }).catch(error => {
-            console.log(error);
-          });
+        inventoryList = [];
+        deleteList = [];
+        console.log("Inventory and delete lists have been reset.");
     }
 
         
@@ -123,7 +119,7 @@ function EditList(props){
                     </thead>
                     {
                         inventory.map(each_invent => ( 
-                            <ListInventory each_invent={each_invent} items_db={items_db} supplier_db={supplier_db} category_db={category_db} inventoryChange={inventoryChange} deleteListChange={deleteListChange}/>
+                            <ListInventory each_invent={each_invent} items_db={items_db} supplier_db={supplier_db} category_db={category_db} inventoryChange={inventoryChange} deleteListChange={deleteListChange} refresh={refresh}/>
                         ))
                     }
                 </table>

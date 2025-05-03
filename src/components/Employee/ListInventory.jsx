@@ -1,7 +1,19 @@
 import { Button, list, Navbar, Typography } from "@material-tailwind/react";
-import React, { useState} from "react";
+import React, { useEffect, useState} from "react";
 
 function ListInventory(props){
+
+    useEffect(() => {
+        console.log("ListInventory component reset"); 
+        setproductname(items_db.filter(item => item.item_id == each_invent.items_id)[0].name);
+        setcategory(category_db.filter(category => category.cate_id == (items_db.filter(item => item.item_id == each_invent.items_id)[0].cate_id))[0].name);
+        setsupplier(supplier_db.filter(sup=> sup.sup_id == each_invent.sup_id)[0].name);
+        setlot_order(each_invent.lot_order);
+        setinstock(each_invent.instock);
+        setdefect(each_invent.defect);
+        setcapital(each_invent.capital);
+        setsale1pc(each_invent.sale1pc);
+    }, [props.refresh]);
 
     const each_invent = props.each_invent;
     const items_db = props.items_db;
@@ -18,7 +30,6 @@ function ListInventory(props){
     const [sale1pc, setsale1pc] = useState(each_invent.sale1pc);
 
     let inventory = {"list_id": each_invent.list_id, "productname": productname, "category": category, "supplier": supplier, "lot_order": lot_order, "instock": instock, "defect": defect, "capital": capital, "sale1pc": sale1pc};
-    let deleteList = []
 
     function onproductnameChange(e){
         setproductname(e.target.value);
@@ -79,29 +90,29 @@ function ListInventory(props){
                 <th scope="row" className="pl-3 bg-[#bda492] text-white">
                     <input className="w-5" type="text" name="list_id" value={each_invent.list_id} disabled/>
                 </th>
-                <td className="pl-3 px-3" contenteditable="true" onChange={onproductnameChange}>
-                    <input type="text" name="list_id" value={productname}/>
+                <td className="pl-3 px-3">
+                    <input type="text" name="list_id" value={productname} onChange={onproductnameChange}/>
                 </td>
-                <td className="pl-3 px-3" contenteditable="true" onChange={oncategoryChange}>
-                    <input className="w-25" type="text" name="category" value={category}/>
+                <td className="pl-3 px-3">
+                    <input className="w-25" type="text" name="category" value={category} onChange={oncategoryChange}/>
                 </td>
-                <td className="pl-3 px-3" contenteditable="true" onChange={onsupplierChange}>
-                    <input type="text" name="sup_id" value={supplier}/>
+                <td className="pl-3 px-3">
+                    <input type="text" name="sup_id" value={supplier} onChange={onsupplierChange}/>
                 </td>
-                <td className="pl-3 px-3" contenteditable="true" onChange={onlot_orderChange}>
-                    <input className="w-25" type="text" name="lot_order" value={lot_order}/>
+                <td className="pl-3 px-3">
+                    <input className="w-25" type="text" name="lot_order" value={lot_order} onChange={onlot_orderChange}/>
                 </td>
-                <td className="pl-3 px-3" contenteditable="true" onChange={oninstockChange}>
-                    <input className="w-25" type="text" name="instock" value={instock}/>
+                <td className="pl-3 px-3">
+                    <input className="w-25" type="text" name="instock" value={instock} onChange={oninstockChange}/>
                 </td>
-                <td className="pl-3 px-3" contenteditable="true" onChange={ondefectChange}>
-                    <input className="w-15" type="text" name="defect" value={defect}/>
+                <td className="pl-3 px-3">
+                    <input className="w-15" type="text" name="defect" value={defect} onChange={ondefectChange}/>
                 </td>
-                <td className="pl-3 px-3" contenteditable="true" onChange={oncapitalChange}>
-                    <input className="w-25" type="text" name="capital" value={capital}/>
+                <td className="pl-3 px-3">
+                    <input className="w-25" type="text" name="capital" value={capital} onChange={oncapitalChange}/>
                 </td>
-                <td className="pl-3 px-3" contenteditable="true" onChange={onsale1pcChange}>
-                    <input className="w-25" type="text" name="sale1pc" value={sale1pc}/>
+                <td className="pl-3 px-3">
+                    <input className="w-25" type="text" name="sale1pc" value={sale1pc} onChange={onsale1pcChange}/>
                 </td>
                 <td className="pl-3 px-3 bg-[#bda492] text-white">
                     {each_invent.createdat}
