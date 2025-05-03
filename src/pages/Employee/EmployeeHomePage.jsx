@@ -10,7 +10,7 @@ import SubmitListComplete from './SubmitListComplete.jsx'
 
 //retreive data from database
 const db_url = 'http://'+import.meta.env.VITE_DB_HOST+":"+import.meta.env.VITE_DB_EXP_PORT+"/employee";
-const res = await axios.get(db_url);
+const res = await axios.get(db_url, {params: {reload: true}});
 console.log(res);
 const category = res.data.category.rows;
 const items_db = res.data.items.rows;

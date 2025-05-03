@@ -66,6 +66,9 @@ app.get('/customer', async (req, res) => {
 });
 
 app.get('/employee', async (req, res) => {
+  console.log("get employee data");
+  console.log(req.query.reload);
+  
   reloadDataEmployee = req.query.reload;
   //retrieve category
   if (category.rows.length && !reloadDataEmployee) {
@@ -205,6 +208,7 @@ app.post('/employee/addlist', async (req, res) => {
       console.log(`category ${cate_id}`);
     } else {
       //add category
+      await db.query('SELECT setval(\'category_cate_id_seq\', (SELECT MAX(cate_id) FROM category)+1, false)');
       await db.query('INSERT INTO category (name) VALUES ($1)', [categoryname]);
       console.log("add category");
       const get_cate_id = await db.query('SELECT cate_id FROM category WHERE name=$1',[categoryname]);
@@ -219,6 +223,7 @@ app.post('/employee/addlist', async (req, res) => {
       item_id = found_product[0].item_id;
     } else {
       //add new product
+      await db.query('SELECT setval(\'items_item_id_seq\', (SELECT MAX(item_id) FROM items)+1, false)');
       await db.query('INSERT INTO items (name, cate_id) VALUES ($1,$2)', [productname, cate_id]);
       console.log("add product");
       item_id = await db.query('SELECT item_id FROM items WHERE name=$1', [productname]);
@@ -231,6 +236,7 @@ app.post('/employee/addlist', async (req, res) => {
     if (found_supplier.length>0){
       sup_id = found_supplier[0].sup_id;
     } else {
+      await db.query('SELECT setval(\'supplier_sup_id_seq\', (SELECT MAX(sup_id) FROM supplier)+1, false)');
       await db.query('INSERT INTO supplier (name) VALUES ($1)',[suppliername]);
       console.log("add supplier");
       const get_sup_id = await db.query('SELECT sup_id FROM supplier WHERE name=$1', [suppliername]);
@@ -238,6 +244,7 @@ app.post('/employee/addlist', async (req, res) => {
     }
 
     //add to inventory
+    await db.query('SELECT setval(\'inventory_list_id_seq\', (SELECT MAX(list_id) FROM inventory)+1, false)');
     await db.query('INSERT INTO inventory (items_id, sup_id, lot_order, defect, instock, capital, sale1pc, createdat, createdby) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)',
       [item_id, sup_id, lot_order, 0, lot_order, capital, sale1pc, new Date(), 123456]);
     console.log("add inventory");
