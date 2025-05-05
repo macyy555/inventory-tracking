@@ -91,7 +91,7 @@ function SideBar(props){
         if (!document.getElementById(e.target.id).checked){
             setShowall(false);
         }
-        props.filterDisplay(selected_cate, selected_items, selected_supplier);
+        props.filterAllDisplay(selected_cate, selected_items, selected_supplier);
     }
 
 

@@ -9,18 +9,22 @@ function DisplayInDetails(props){
     const items = props.items;
     const inventory = props.inventory;
     const supplier = props.supplier;
-    const items_display = items.filter(item => item.cate_id == category.cate_id).map(item => [{"item": item, "instock": 0}]);
     const column_display = ["Lot Order", "In Stock", "Defect", "Sales (1 pc.)", "Capital (1 pc.)", "last edited on", "last edieted by", "created on", "created by"];
 
     const [expand, setExpand] = useState(true);
+
+    //set inventory to display according to supplier filter
+    let inventory_display = inventory.filter(invent => supplier.some(sup => sup.sup_id == invent.sup_id));
+    let items_from_selected_inventory = items.filter(item => inventory_display.some(invent => invent.items_id == item.item_id));
+    let items_display = items_from_selected_inventory.map(item => [{"item": item, "instock": 0}]);
     
     function onArrowClick(){
         setExpand(!expand)
     }
 
     for (let item of items_display){
-        inventory.filter(invent => invent.items_id == item[0].item.item_id).map( each_invent => 
-            item[0].instock = item[0].instock + each_invent.instock           
+        inventory_display.filter(invent => invent.items_id == item[0].item.item_id).map( each_invent => 
+            item[0].instock = parseInt(item[0].instock) + parseInt(each_invent.instock)           
         )
     }
     
@@ -67,7 +71,7 @@ function DisplayInDetails(props){
                                     </thead>
                                     <tbody>
                                         {
-                                            inventory.filter(invent => invent.items_id == item[0].item.item_id).map(each_invent => (
+                                            inventory_display.filter(invent => invent.items_id == item[0].item.item_id).map(each_invent => (
                                                 <tr className="text-lg text-black">
                                                     <th scope="row" className="pr-10 w-40">
                                                         {supplier.filter(sup => sup.sup_id == each_invent.sup_id)[0].name}

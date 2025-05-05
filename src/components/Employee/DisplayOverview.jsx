@@ -9,8 +9,12 @@ function DisplayOverview(props){
     let items = props.items;
     let inventory = props.inventory;
     let supplier = props.supplier;
-    let items_display = items.filter(item => item.cate_id == category.cate_id).map(item => [{"item": item, "instock": 0}]);
     
+    //set inventory to display according to supplier filter
+    let inventory_display = inventory.filter(invent => supplier.some(sup => sup.sup_id == invent.sup_id));
+    let items_from_selected_inventory = items.filter(item => inventory_display.some(invent => invent.items_id == item.item_id));
+    let items_display = items_from_selected_inventory.map(item => [{"item": item, "instock": 0}]);
+
     const [expand, setExpand] = useState(true);
 
     useEffect(() => {
@@ -22,7 +26,7 @@ function DisplayOverview(props){
     }
 
     for (let item of items_display){
-        inventory.filter(invent => invent.items_id == item[0].item.item_id).map( each_invent => 
+        inventory_display.filter(invent => invent.items_id == item[0].item.item_id).map( each_invent => 
             item[0].instock = parseInt(item[0].instock) + parseInt(each_invent.instock)          
         )
     }
@@ -41,7 +45,7 @@ function DisplayOverview(props){
             <div className={clsx(expand ? "grid grid-cols-3 mt-3 justify-between" : "hidden transition-discrete duration-450", "")}>
                 {
                     items_display.map(item => (
-                        <dl className="bg-[#ECE1D5] mt-3 ml-5 p-3 rounded-lg">
+                        <dl className="bg-[#ECE1D5] mt-3 ml-5 p-3 rounded-lg" key={item[0].item.item_id}>
                             <Typography className="font-medium text-xl ml-5 tracking-wide text-black">
                             {item[0].item.name}</Typography>
                             <div className="justify-items-center">                                  
@@ -60,7 +64,7 @@ function DisplayOverview(props){
                                         </tr>
                                     </thead>
                                     {
-                                        inventory.filter(each_list => each_list.items_id == item[0].item.item_id).map(each_invent => ( 
+                                        inventory_display.filter(each_list => each_list.items_id == item[0].item.item_id).map(each_invent => ( 
                                             <tbody>  
                                                 <tr className="text-xs text-black">
                                                     <th scope="row" className="pr-3">
