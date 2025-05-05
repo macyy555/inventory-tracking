@@ -1,4 +1,4 @@
-import { Button, Navbar, Typography } from "@material-tailwind/react";
+import { Button, Navbar, select, Typography } from "@material-tailwind/react";
 import searchimg from "../../assets/search.png";
 import boximg from "../../assets/box.png";
 import filmimg from "../../assets/film-roll.png";
@@ -17,7 +17,10 @@ function SideBar(props){
 
     const [value, setValue] = useState("");
     const [showall, setShowall] = useState(true);
-    const [isChecked, setCheckbox] = useState(true);
+
+    let selected_cate = category;
+    let selected_items = items_db;
+    let selected_supplier = supplier;
 
     function onInputChange(e){
         setValue(e.target.value);
@@ -48,19 +51,47 @@ function SideBar(props){
             items_db.map(item => (
                 document.getElementById(item.name).checked = true
             ))
+            filterDisplay();
+            onSupplierClick();
         }
         else{
             setShowall(false);
+            supplier.map(each_supplier => (
+                document.getElementById(each_supplier.name).checked = false
+            ))
+            category.map(each_category => (
+                document.getElementById(each_category.name).checked = false
+            ))
+            items_db.map(item => (
+                document.getElementById(item.name).checked = false
+            ))
         }
     }
 
-    function onSupplierClick(e){
-        if (document.getElementById(e.target.id).checked){
-            //will do
+    function filterDisplay(){
+        console.log("product filter");
+        selected_cate = category.filter((cate) => document.getElementById(cate.name).checked);
+        selected_items = items_db.filter((item) => document.getElementById(item.name).checked);
+        if(selected_items.length > 0){
+            //in case : user selected only items but not the whole category
+            selected_items.forEach(item => {
+                selected_cate = selected_cate.filter(cate => cate.cate_id != item.cate_id);
+                selected_cate.push(category.filter((cate) => cate.cate_id == item.cate_id)[0]);
+            });
         }
-        else{
+        console.log(selected_cate);
+        console.log(selected_items);
+        props.filterAllDisplay(selected_cate, selected_items, selected_supplier);
+    }
+
+    function onSupplierClick(e){
+        console.log("supplier filter")
+        selected_supplier = supplier.filter((sup) => document.getElementById(sup.name).checked);
+        console.log(selected_supplier);
+        if (!document.getElementById(e.target.id).checked){
             setShowall(false);
         }
+        props.filterDisplay(selected_cate, selected_items, selected_supplier);
     }
 
 
@@ -80,7 +111,7 @@ function SideBar(props){
             </div>
             {
                 category.map(each_category => (
-                    <ProductSideBarElement category={each_category} items={items_db.filter((item) => item.cate_id == each_category.cate_id)} showall={showall}/>
+                    <ProductSideBarElement category={each_category} items={items_db.filter((item) => item.cate_id == each_category.cate_id)} showall={showall} filterDisplay={filterDisplay}/>
                 ))
             }
 

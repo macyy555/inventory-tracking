@@ -1,17 +1,21 @@
 import { Button, Navbar, Typography } from "@material-tailwind/react";
 import leftimg from "../../assets/left.png";
-import React, { useState, useReducer } from "react";
+import React, { useState, useReducer, useEffect } from "react";
 import clsx from 'clsx';
 
 function DisplayOverview(props){
 
-    const category = props.category;
-    const items = props.items;
-    const inventory = props.inventory;
-    const supplier = props.supplier;
-    const items_display = items.filter(item => item.cate_id == category.cate_id).map(item => [{"item": item, "instock": 0}]);
+    let category = props.category;
+    let items = props.items;
+    let inventory = props.inventory;
+    let supplier = props.supplier;
+    let items_display = items.filter(item => item.cate_id == category.cate_id).map(item => [{"item": item, "instock": 0}]);
     
     const [expand, setExpand] = useState(true);
+
+    useEffect(() => {
+        console.log("DisplayOverview component reset");
+    }, [props.refresh]);
     
     function onArrowClick(){
         setExpand(!expand)
