@@ -26,6 +26,7 @@ const inventory = res.data.inventory.rows;
 let selected_cate = category;
 let selected_items = items_db;
 let selected_supplier = supplier;
+let old_selected_items = items_db;
 
 function EmployeeHomePage(props){
 
@@ -52,11 +53,25 @@ function EmployeeHomePage(props){
         console.log("all filter");
         selected_cate = cate;
         selected_items = items;
+        old_selected_items = items;
         selected_supplier = supplier;
         setRefresh(prev => !prev);  
         console.log(selected_cate);
         console.log(selected_items);
         console.log(selected_supplier);
+    }
+
+    function filterbySearchText(searchText){
+        console.log(searchText);
+        if (searchText == ""){
+            selected_items = old_selected_items;
+        } else {
+            selected_items = items_db.filter(item => {
+                return item.name.toLowerCase().includes(searchText.toLowerCase());
+            });
+        }
+        setRefresh(prev => !prev);
+        console.log(selected_items);
     }
 
     return(
@@ -66,7 +81,7 @@ function EmployeeHomePage(props){
 
             <div className="grid grid-cols-7 gap-4 min-h-[calc(100vh-80px)] overflow-auto">
                 <div className="col-span-1">
-                    <SideBar display={setDisplay} displayOption={displayOption} viewEditPageState={viewEditPageState} viewEditPage={setViewEditPage} category={category} items_db={items_db} supplier={supplier} filterAllDisplay={filterAllDisplay}/>
+                    <SideBar display={setDisplay} displayOption={displayOption} viewEditPageState={viewEditPageState} viewEditPage={setViewEditPage} category={category} items_db={items_db} supplier={supplier} filterAllDisplay={filterAllDisplay} filterbySearchText={filterbySearchText}/>
                 </div>
                 <div className="col-span-6">
                     <div className={clsx(displayOption==0 ? "opacity-100" : "opacity-0", "transition-opacity ease-in-out duration-150")}>

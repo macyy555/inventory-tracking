@@ -29,7 +29,6 @@ function SideBar(props){
         setValue(e.target.value);
         props.filterbySearchText(e.target.value);
         console.log(e.target.value);
-        
     }
 
     return(

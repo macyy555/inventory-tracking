@@ -22,8 +22,10 @@ function SideBar(props){
     let selected_items = items_db;
     let selected_supplier = supplier;
 
-    function onInputChange(e){
+    function onSearchChange(e){
         setValue(e.target.value);
+        props.filterbySearchText(e.target.value);
+        console.log(e.target.value);
     }
 
     function onEditClick(){
@@ -51,8 +53,10 @@ function SideBar(props){
             items_db.map(item => (
                 document.getElementById(item.name).checked = true
             ))
-            filterDisplay();
-            onSupplierClick();
+            selected_cate = category.filter((cate) => document.getElementById(cate.name).checked);
+            selected_items = items_db.filter((item) => document.getElementById(item.name).checked);
+            selected_supplier = supplier.filter((sup) => document.getElementById(sup.name).checked);
+            props.filterAllDisplay(selected_cate, selected_items, selected_supplier);
         }
         else{
             setShowall(false);
@@ -69,6 +73,7 @@ function SideBar(props){
     }
 
     function filterDisplay(){
+        setShowall(false);
         console.log("product filter");
         selected_cate = category.filter((cate) => document.getElementById(cate.name).checked);
         selected_items = items_db.filter((item) => document.getElementById(item.name).checked);
@@ -99,7 +104,7 @@ function SideBar(props){
         <div className="bg-[#FAF2ED] flex flex-col h-full gap-0 p-0">
             <div className="bg-white w-full mt-10 flex flex-row">
                 <img className="ml-5" src={searchimg} alt="A" width="25" height="15" />
-                <input className="bg-white text-gray-600 shrink w-full ml-2" type="text" id="search-box" name="search-text" placeholder="Search" value={value} onChange={onInputChange}/>
+                <input className="bg-white text-gray-600 shrink w-full ml-2" type="text" id="search-box" name="search-text" placeholder="Search" value={value} onChange={onSearchChange}/>
             </div>
             <Typography className="ml-4 mt-10 font-medium text-xs tracking-wide text-gray-500 italic">
                 Filtered by Product</Typography>

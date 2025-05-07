@@ -15,8 +15,6 @@ function DisplayAll(props){
     const [expand, setExpand] = useState(true);
 
     useEffect(() => {
-        category_menu = props.category;
-        items = props.items;
         console.log("refresh in DisplayAll");
     }, [props.refresh]);
 
