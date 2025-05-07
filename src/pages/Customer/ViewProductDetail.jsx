@@ -6,7 +6,10 @@ import { fromByteArray } from 'base64-js';
 
 function ViewProductDetail(props){
 
-    const item_img = `data:image/png;base64,${fromByteArray(new Uint8Array(props.viewDetailState.product[0].img.data))}`; // Use base64-js
+    let item_img = Film1;
+    if (props.viewDetailState.product[0].img != null){
+        item_img = `data:image/png;base64,${fromByteArray(new Uint8Array(props.viewDetailState.product[0].img.data))}`;
+    } // Use base64-js
 
     function onCloseClick(e){
         props.viewDetail({viewDetail: false, product: props.viewDetailState.product});

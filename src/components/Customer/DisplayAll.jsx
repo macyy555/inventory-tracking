@@ -1,16 +1,24 @@
 import { Button, Navbar, Typography } from "@material-tailwind/react";
 import leftimg from "../../assets/left.png";
-import React, { useState, useReducer } from "react";
+import React, { useState, useReducer, useEffect } from "react";
 import clsx from 'clsx';
 import { fromByteArray } from 'base64-js';
 import Film1 from "../../assets/Products/Film/Kodak color plus.png"
 
 function DisplayAll(props){
 
-    const category_menu = props.category;
-    const items = props.items;
+    let category_menu = props.category;
+    let items = props.items;
+    console.log(items);
+    
 
     const [expand, setExpand] = useState(true);
+
+    useEffect(() => {
+        category_menu = props.category;
+        items = props.items;
+        console.log("refresh in DisplayAll");
+    }, [props.refresh]);
 
     function onArrowClick(){
         setExpand(!expand)

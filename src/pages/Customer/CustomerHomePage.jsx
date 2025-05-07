@@ -17,6 +17,7 @@ const res = await axios.get(db_url);
 // console.log(res);
 const category = res.data.category.rows;
 const items_db = res.data.items.rows;
+let filteredItems = items_db;
 
 
 function initViewDetailState(){
@@ -29,6 +30,7 @@ function CustomerHomePage(props){
     const [displayOption, setDisplayOption] = useState(props.displayOption);
     const [viewDetailState, setViewDetailState] = useState(initViewDetailState);
     const [showsubmitcomplete, setshowsubmitcomplete] = useState(props.showsubmitcomplete);
+    const [refresh, setRefresh] = useState(false);
 
     function setDisplay(user_displayOption){
         console.log(user_displayOption); 
@@ -46,6 +48,18 @@ function CustomerHomePage(props){
         setshowsubmitcomplete(user_select);
     }
 
+    function filterbySearchText(searchText){
+        console.log(searchText);
+        filteredItems = items_db.filter(item => {
+            return item.name.toLowerCase().includes(searchText.toLowerCase());
+        });
+        if (searchText == ""){
+            filteredItems = items_db;
+        }
+        setRefresh(prev => !prev);
+        console.log(filteredItems);
+    }
+
     return(
         <React.Fragment>
         <div className="bg-[#967761] flex flex-col">
@@ -54,16 +68,14 @@ function CustomerHomePage(props){
 
             <div className="grid grid-cols-7 gap-4 min-h-[calc(100vh-160px)]">
                 <div className="col-span-1">
-                    <SideBar display={setDisplay} displayOption={displayOption} category={category}/>
+                    <SideBar display={setDisplay} displayOption={displayOption} category={category} filterbySearchText={filterbySearchText}/>
                 </div>
                 <div className="col-span-6">
-                {/* add code to select which display should be shown */}
-                    {/* extract info from db and add loop here */}
                     <div className={clsx(displayOption==0 ? "opacity-100" : "opacity-0", "transition-opacity ease-in-out duration-150")}>
                     <div className={clsx(displayOption==0 ? "grid" : "hidden transition-discrete duration-150", "")}>
                     {
                         category.map(each_category => (
-                            <DisplayAll category={each_category} items={items_db.filter((item) => item.cate_id == each_category.cate_id)} viewDetail={setviewDetail}/>
+                            <DisplayAll category={each_category} items={filteredItems.filter((item) => item.cate_id == each_category.cate_id)} viewDetail={setviewDetail} refresh={refresh}/>
                         ))
                     }
                     </div>
@@ -71,7 +83,7 @@ function CustomerHomePage(props){
 
                     <div className={clsx(displayOption!=0 && displayOption!=99 ? "opacity-100" : "opacity-0", "transition-opacity ease-in-out duration-150")}>
                     <div className={clsx(displayOption!=0 && displayOption!=99 ? "grid" : "hidden transition-discrete duration-150", "")}>   
-                        <DisplayEach items={items_db.filter((item) => item.cate_id == displayOption)} viewDetail={setviewDetail}/>
+                        <DisplayEach all_items={items_db.filter((item) => item.cate_id == displayOption)} items={filteredItems.filter((item) => item.cate_id == displayOption)} viewDetail={setviewDetail} refresh={refresh}/>
                     </div>
                     </div>
 

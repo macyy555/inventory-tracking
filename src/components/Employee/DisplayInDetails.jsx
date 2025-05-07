@@ -1,6 +1,6 @@
 import { Button, Navbar, Typography } from "@material-tailwind/react";
 import leftimg from "../../assets/left.png";
-import React, { useState, useReducer } from "react";
+import React, { useState, useReducer, useEffect } from "react";
 import clsx from 'clsx';
 
 function DisplayInDetails(props){
@@ -12,6 +12,10 @@ function DisplayInDetails(props){
     const column_display = ["Lot Order", "In Stock", "Defect", "Sales (1 pc.)", "Capital (1 pc.)", "last edited on", "last edieted by", "created on", "created by"];
 
     const [expand, setExpand] = useState(true);
+
+    useEffect(() => {
+        console.log("refresh in DisplayInDetails");
+    }, [props.refresh]);
 
     //set inventory to display according to supplier filter
     let inventory_display = inventory.filter(invent => supplier.some(sup => sup.sup_id == invent.sup_id));

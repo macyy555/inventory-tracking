@@ -10,7 +10,6 @@ import Category from "./SideBarCpt/category_menu"
 function SideBar(props){
 
     const category_menu = props.category;
-    const items_db = props.items_db;
     
     const [displayOption, setDisplayOption] = useState(0);
     const [value, setValue] = useState("");
@@ -28,6 +27,9 @@ function SideBar(props){
 
     function onInputChange(e){
         setValue(e.target.value);
+        props.filterbySearchText(e.target.value);
+        console.log(e.target.value);
+        
     }
 
     return(
