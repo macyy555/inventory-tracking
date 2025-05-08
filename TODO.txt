@@ -1,6 +1,7 @@
 - update db for 
     - employee: add/edit list (get employee info)
-- add search function
+- log in function
+- encrypt data
 
 Limitation
 - new product added will not have description/img => expect to be updated from Backend not by the user

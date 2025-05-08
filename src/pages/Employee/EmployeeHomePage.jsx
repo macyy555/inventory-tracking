@@ -8,6 +8,9 @@ import clsx from 'clsx';
 import axios from 'axios'
 import SubmitListComplete from './SubmitListComplete.jsx'
 import { use } from "react";
+import { useNavigate } from "react-router-dom";
+
+
 
 //retreive data from database
 const db_url = 'http://'+import.meta.env.VITE_DB_HOST+":"+import.meta.env.VITE_DB_EXP_PORT+"/employee";
@@ -29,6 +32,11 @@ let selected_supplier = supplier;
 let old_selected_items = items_db;
 
 function EmployeeHomePage(props){
+
+    const navigate = useNavigate();
+    //check if employee is logged in
+    // window.location.href = 'http://'+import.meta.env.VITE_CLIENT_HOST+":"+import.meta.env.VITE_CLIENT_PORT+"/employee/home/login";
+    navigate("/employee/home/login");
 
     const [displayOption, setDisplayOption] = useState(0);
     const [viewEditPageState, setviewEditPageState] = useState(0)

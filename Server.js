@@ -3,6 +3,7 @@ import cors from "cors";
 import dotenv from 'dotenv';
 import bodyParser from "body-parser";
 import pg from "pg";
+import bcrypt from "bcrypt";
 
 dotenv.config();
 
@@ -328,6 +329,43 @@ app.put('/employee/editlist/delete', async (req, res) => {
   }
   
 });
+
+app.post('/employee/home/login', async (req, res) => {
+  // Process of extraction
+  const extractedData = Object.keys(req.body).map(key => JSON.parse(`[${key}]`))[0];
+  console.log(extractedData);
+
+  const employee_id = extractedData[0].employee_id;
+  const loginPassword = extractedData[0].password;
+  
+  try {
+    const result = await db.query("SELECT * FROM teams WHERE employee_id = $1", [
+      employee_id,
+    ]);
+    if (result.rows.length > 0) {
+      const storedHashedPassword = result.rows[0].password;
+      //verifying the password
+      bcrypt.compare(loginPassword, storedHashedPassword, (err, result) => {
+        if (err) {
+          console.error({submitstatus: "Error comparing passwords:"}, err);
+        } else {
+          if (result) {
+            res.send({submitstatus: "Login Successful"});
+          } else {
+            res.send({submitstatus: "Incorrect Password"});
+          }
+        }
+      });
+    } else {
+      res.send({submitstatus: "User not found"});
+    }
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+
+
 
 app.listen(port, () => {
   console.log(`Server running on http://${process.env.VITE_DB_HOST}:${port}`);

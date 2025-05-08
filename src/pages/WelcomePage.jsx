@@ -12,7 +12,7 @@ function WelcomePage(){
     }
 
     function onEmployeeClick(){
-        navigate("/employee/home");
+        navigate("/employee/home/login");
     }
 
     return(

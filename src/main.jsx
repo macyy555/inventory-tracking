@@ -14,6 +14,7 @@ import { QueryClient, QueryClientProvider } from 'react-query'
 import WelcomePage from './pages/WelcomePage.jsx'
 import CustomerHomePage from './pages/Customer/CustomerHomePage.jsx'
 import EmployeeHomePage from './pages/Employee/EmployeeHomePage.jsx'
+import LoginPage from './pages/Employee/LoginPage.jsx'
 
 const router = createBrowserRouter([
     {
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
     {
       path: "/employee/home",
       element: <EmployeeHomePage displayOption={0} showsubmitcomplete={false}/>,
+    },
+    {
+      path: "/employee/home/login",
+      element: <LoginPage />
     },
     {
       path: "/employee/submitlistcomplete",
