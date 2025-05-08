@@ -1,6 +1,5 @@
 - update db for 
     - employee: add/edit list (get employee info)
-- log in function
 - encrypt data
 
 Limitation

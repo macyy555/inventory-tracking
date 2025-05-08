@@ -343,6 +343,7 @@ app.post('/employee/home/login', async (req, res) => {
       employee_id,
     ]);
     if (result.rows.length > 0) {
+      const employee_name = result.rows[0].name;
       const storedHashedPassword = result.rows[0].password;
       //verifying the password
       bcrypt.compare(loginPassword, storedHashedPassword, (err, result) => {
@@ -350,7 +351,7 @@ app.post('/employee/home/login', async (req, res) => {
           console.error({submitstatus: "Error comparing passwords:"}, err);
         } else {
           if (result) {
-            res.send({submitstatus: "Login Successful"});
+            res.send({submitstatus: "Login Successful", employee_name: employee_name});
           } else {
             res.send({submitstatus: "Incorrect Password"});
           }

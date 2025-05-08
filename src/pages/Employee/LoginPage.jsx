@@ -8,18 +8,11 @@ import axios from "axios";
 import { useRouteLoaderData } from "react-router";
 
 const client_origin = 'http://'+process.env.VITE_CLIENT_HOST+":"+process.env.VITE_CLIENT_PORT;
-let msg = "";
 
 
-function LoginPage(props){
+function LoginPage(){
 
     const navigate = useNavigate();
-    // const searchParams = new URLSearchParams(window.location.search);
-    // if (searchParams.get("submitstatus") == "completed"){
-    //     msg = "Submit Completed";
-    // } else if (searchParams.get("submitstatus") == "itemnotfound"){
-    //     msg = "Product not found";
-    // }
 
     const [employee_id, setemployee_id] = useState("");
     const [password, setpassword] = useState("");
@@ -44,7 +37,7 @@ function LoginPage(props){
             console.log(response);
             if(response.data.submitstatus == "Login Successful"){
                 console.log("Login Successful");
-                window.location.href=client_origin+"/employee/home";
+                navigate("/employee/home", { state: { employee_id: employee_id, employee_name: response.data.employee_name } });
             } else {
                 alert(response.data.submitstatus);
             }

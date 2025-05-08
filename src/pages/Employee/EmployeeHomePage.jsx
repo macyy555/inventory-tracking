@@ -8,7 +8,7 @@ import clsx from 'clsx';
 import axios from 'axios'
 import SubmitListComplete from './SubmitListComplete.jsx'
 import { use } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 
 
@@ -33,10 +33,10 @@ let old_selected_items = items_db;
 
 function EmployeeHomePage(props){
 
-    const navigate = useNavigate();
-    //check if employee is logged in
-    // window.location.href = 'http://'+import.meta.env.VITE_CLIENT_HOST+":"+import.meta.env.VITE_CLIENT_PORT+"/employee/home/login";
-    navigate("/employee/home/login");
+    const location = useLocation();
+    const receivedData = location.state;
+    const employee_id = receivedData ? receivedData.employee_id : "";
+    const employee_name = receivedData ? receivedData.employee_name : "";
 
     const [displayOption, setDisplayOption] = useState(0);
     const [viewEditPageState, setviewEditPageState] = useState(0)
@@ -85,7 +85,7 @@ function EmployeeHomePage(props){
     return(
         <div className="flex flex-col overflow-auto max-h-full">
         <div className="bg-[#967761] flex flex-col overflow-auto">
-            <CustomNavBar />
+            <CustomNavBar employee_id={employee_id} employee_name={employee_name}/>
 
             <div className="grid grid-cols-7 gap-4 min-h-[calc(100vh-80px)] overflow-auto">
                 <div className="col-span-1">
