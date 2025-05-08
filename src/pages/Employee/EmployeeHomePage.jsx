@@ -115,7 +115,7 @@ function EmployeeHomePage(props){
             </div>
         </div>
         <div className={clsx(viewEditPageState ? "grid grid-cols-1 overflow-auto min-h-max scroll-auto h-auto" : "hidden transition-discrete duration-150", "")}>
-            <EditPage viewEditPageState={viewEditPageState} viewEditPage={setViewEditPage} inventory={inventory} items_db={items_db} supplier_db={supplier} category_db={category}/>
+            <EditPage viewEditPageState={viewEditPageState} viewEditPage={setViewEditPage} inventory={inventory} items_db={items_db} supplier_db={supplier} category_db={category} employee_id={employee_id}/>
         </div>
         <div className={clsx(showsubmitcomplete ? "flex flex-row overflow-auto min-h-max" : "hidden transition-discrete duration-150", "")}>
             <SubmitListComplete setshowsubmitcomplete={setshowsubmitcompletestate} showsubmitcomplete={showsubmitcomplete} msg={props.msg}/>

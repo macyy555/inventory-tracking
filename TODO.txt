@@ -1,5 +1,4 @@
-- update db for 
-    - employee: add/edit list (get employee info)
+- implement cookies, login session
 - encrypt data
 
 Limitation

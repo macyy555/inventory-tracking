@@ -35,6 +35,8 @@ let items = {rows: []};
 let supplier = {rows: []};
 let teams = {rows: []};
 
+let loggedin_id = 0;
+
 let reloadDataCustomer = true;
 let reloadDataEmployee = true;
 
@@ -247,7 +249,7 @@ app.post('/employee/addlist', async (req, res) => {
     //add to inventory
     await db.query('SELECT setval(\'inventory_list_id_seq\', (SELECT MAX(list_id) FROM inventory)+1, false)');
     await db.query('INSERT INTO inventory (items_id, sup_id, lot_order, defect, instock, capital, sale1pc, createdat, createdby) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)',
-      [item_id, sup_id, lot_order, 0, lot_order, capital, sale1pc, new Date(), 123456]);
+      [item_id, sup_id, lot_order, 0, lot_order, capital, sale1pc, new Date(), loggedin_id]);
     console.log("add inventory");
     
     reloadDataCustomer = true;
@@ -294,8 +296,8 @@ app.put('/employee/editlist/update', async (req, res) => {
         [suppliername, all_id.rows[0].sup_id]);
 
       //update inventory
-      await db.query('UPDATE inventory SET lot_order=$1, instock=$2, defect=$3, capital=$4, sale1pc=$5 WHERE list_id=$6',
-        [lot_order, instock, defect, capital, sale1pc, list_id]);
+      await db.query('UPDATE inventory SET lot_order=$1, instock=$2, defect=$3, capital=$4, sale1pc=$5, updateat=$6, updateby=$7 WHERE list_id=$8',
+        [lot_order, instock, defect, capital, sale1pc, new Date(), loggedin_id, list_id]);
 
       console.log(`update ${item}`);
     });
@@ -351,6 +353,7 @@ app.post('/employee/home/login', async (req, res) => {
           console.error({submitstatus: "Error comparing passwords:"}, err);
         } else {
           if (result) {
+            loggedin_id = employee_id;
             res.send({submitstatus: "Login Successful", employee_name: employee_name});
           } else {
             res.send({submitstatus: "Incorrect Password"});
