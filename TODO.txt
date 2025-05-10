@@ -1,4 +1,4 @@
-- implement cookies, login session
+- implement sign out 
 - encrypt data
 
 Limitation

@@ -10,33 +10,32 @@ import SubmitListComplete from './SubmitListComplete.jsx'
 import { use } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
-
-
 //retreive data from database
 const db_url = 'http://'+import.meta.env.VITE_DB_HOST+":"+import.meta.env.VITE_DB_EXP_PORT+"/employee";
 const searchParams = new URLSearchParams(window.location.search);
 let res = null;
-if (searchParams.get("submitstatus") == "complete"){
-    res = await axios.get(db_url, {params: {reload: true}});
+
+console.log(searchParams.get("submitstatus"));
+
+
+if (searchParams.get("submitstatus") == "completed"){
+    res = await axios.get(db_url, {params: {reload: true}, withCredentials: true});
 } else {
-    res = await axios.get(db_url, {params: {reload: false}});
+    res = await axios.get(db_url, {params: {reload: false}, withCredentials: true});
 }
 console.log(res);
 const category = res.data.category.rows;
 const items_db = res.data.items.rows;
 const supplier = res.data.supplier.rows;
 const inventory = res.data.inventory.rows;
+const employee_id = res.data.employee_id;
+const employee_name = res.data.employee_name;
 let selected_cate = category;
 let selected_items = items_db;
 let selected_supplier = supplier;
 let old_selected_items = items_db;
 
 function EmployeeHomePage(props){
-
-    const location = useLocation();
-    const receivedData = location.state;
-    const employee_id = receivedData ? receivedData.employee_id : "";
-    const employee_name = receivedData ? receivedData.employee_name : "";
 
     const [displayOption, setDisplayOption] = useState(0);
     const [viewEditPageState, setviewEditPageState] = useState(0)

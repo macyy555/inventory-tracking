@@ -4,10 +4,31 @@ import dotenv from 'dotenv';
 import bodyParser from "body-parser";
 import pg from "pg";
 import bcrypt from "bcrypt";
+import session from "express-session";
+import passport from "passport";
+import { Strategy } from "passport-local";
 
 dotenv.config();
 
 const client_origin = 'http://'+process.env.VITE_CLIENT_HOST+":"+process.env.VITE_CLIENT_PORT;
+
+const app = express();
+const port = process.env.VITE_DB_EXP_PORT;
+
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(session({
+  secret: process.env.VITE_SESSION_SECRET,
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    secure: false, // Set to true if using HTTPS
+    maxAge: 60 * 60 * 1000, // 1 hour
+    sameSite: 'lax', // or 'none' if using HTTPS and cross-site
+  },
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 
 const db = new pg.Client({
   user: process.env.VITE_DB_USER,
@@ -17,10 +38,6 @@ const db = new pg.Client({
   port: process.env.VITE_DB_PORT,
 });
 db.connect();
-
-const app = express();
-const port = process.env.VITE_DB_EXP_PORT;
-app.use(bodyParser.urlencoded({ extended: true }));
 
 const corsOptions = {
     origin: client_origin,
@@ -36,6 +53,7 @@ let supplier = {rows: []};
 let teams = {rows: []};
 
 let loggedin_id = 0;
+let loggedin_name = "";
 
 let reloadDataCustomer = true;
 let reloadDataEmployee = true;
@@ -71,59 +89,65 @@ app.get('/customer', async (req, res) => {
 app.get('/employee', async (req, res) => {
   console.log("get employee data");
   console.log(req.query.reload);
+
+  if (req.isAuthenticated()) {
   
-  reloadDataEmployee = req.query.reload;
-  //retrieve category
-  if (category.rows.length && !reloadDataEmployee) {
-    console.log("category in cache");
-  } else {
-    try {
-      category = await db.query("SELECT * FROM category ORDER BY cate_id ASC");
-      // console.log(category.rows);
-    } catch (err) {
-      console.log(err);
+    reloadDataEmployee = req.query.reload;
+    //retrieve category
+    if (category.rows.length && !reloadDataEmployee) {
+      console.log("category in cache");
+    } else {
+      try {
+        category = await db.query("SELECT * FROM category ORDER BY cate_id ASC");
+        // console.log(category.rows);
+      } catch (err) {
+        console.log(err);
+      }
     }
-  }
 
-  //retrieve items
-  if (items.rows.length && !reloadDataEmployee){
-    console.log("items in cache");
-  } else {
-    try {
-      items = await db.query("SELECT * FROM items ORDER BY item_id ASC");
-      // console.log(items.rows);
-    } catch (err) {
-      console.log(err);
+    //retrieve items
+    if (items.rows.length && !reloadDataEmployee){
+      console.log("items in cache");
+    } else {
+      try {
+        items = await db.query("SELECT * FROM items ORDER BY item_id ASC");
+        // console.log(items.rows);
+      } catch (err) {
+        console.log(err);
+      }
     }
-  }
 
-  //retrieve inventory
-  if (inventory.rows.length && !reloadDataEmployee){
-    console.log("inventory in cache");
-  } else {
-    try {
-      inventory = await db.query("SELECT * FROM inventory ORDER BY list_id ASC");
-      console.log("inventory in db");
-      
-      console.log(inventory.rows);
-    } catch (err) {
-      console.log(err);
+    //retrieve inventory
+    if (inventory.rows.length && !reloadDataEmployee){
+      console.log("inventory in cache");
+    } else {
+      try {
+        inventory = await db.query("SELECT * FROM inventory ORDER BY list_id ASC");
+        console.log("inventory in db");
+        // console.log(inventory.rows);
+      } catch (err) {
+        console.log(err);
+      }
     }
-  }
 
-  //retrieve supplier
-  if (supplier.rows.length && !reloadDataEmployee){
-    console.log("supplier in cache");
-  } else {
-    try {
-      supplier = await db.query("SELECT * FROM supplier ORDER BY sup_id ASC");
-      // console.log(supplier.rows);
-    } catch (err) {
-      console.log(err);
+    //retrieve supplier
+    if (supplier.rows.length && !reloadDataEmployee){
+      console.log("supplier in cache");
+    } else {
+      try {
+        supplier = await db.query("SELECT * FROM supplier ORDER BY sup_id ASC");
+        // console.log(supplier.rows);
+      } catch (err) {
+        console.log(err);
+      }
     }
+    reloadDataEmployee = false;
+    res.send({category: category, items: items, inventory: inventory, supplier: supplier, employee_id: loggedin_id, employee_name: loggedin_name, login: true});
+
+  } else {
+    console.log("not logged in");
+    res.send({category: category, items: items, inventory: inventory, supplier: supplier, employee_id: null, employee_name: null, login: false});
   }
-  reloadDataEmployee = false;
-  res.send({category: category, items: items, inventory: inventory, supplier: supplier});
 });
 
 app.post('/customer/submitquiz', async (req, res) => {
@@ -332,44 +356,50 @@ app.put('/employee/editlist/delete', async (req, res) => {
   
 });
 
-app.post('/employee/home/login', async (req, res) => {
-  // Process of extraction
-  const extractedData = Object.keys(req.body).map(key => JSON.parse(`[${key}]`))[0];
-  console.log(extractedData);
+app.post('/employee/home/login', passport.authenticate("local", {
+  successRedirect: client_origin+"/employee/home?submitstatus=completed",
+  failureRedirect: client_origin+"/employee/home/login",
+}));
 
-  const employee_id = extractedData[0].employee_id;
-  const loginPassword = extractedData[0].password;
-  
+
+passport.use(new Strategy(async function verify(username, password, cb) {
   try {
-    const result = await db.query("SELECT * FROM teams WHERE employee_id = $1", [
-      employee_id,
-    ]);
+    const result = await db.query("SELECT * FROM teams WHERE employee_id = $1", [username]);
+    console.log('Query result:', result.rows);
+    // ... rest of your logic, using result.rows
     if (result.rows.length > 0) {
-      const employee_name = result.rows[0].name;
-      const storedHashedPassword = result.rows[0].password;
-      //verifying the password
-      bcrypt.compare(loginPassword, storedHashedPassword, (err, result) => {
-        if (err) {
-          console.error({submitstatus: "Error comparing passwords:"}, err);
-        } else {
-          if (result) {
-            loggedin_id = employee_id;
-            res.send({submitstatus: "Login Successful", employee_name: employee_name});
-          } else {
-            res.send({submitstatus: "Incorrect Password"});
-          }
-        }
-      });
+      const employee = result.rows[0];
+      const isMatch = await bcrypt.compare(password, employee.password);
+      if (isMatch) {
+        loggedin_id = employee.employee_id;
+        loggedin_name = employee.name;
+        return cb(null, employee, {submitstatus: "Login Successful"});
+      } else {
+        return cb(null, false, { submitstatus: "Incorrect Password" });
+      }
     } else {
-      res.send({submitstatus: "User not found"});
+      return cb(null, false, { submitstatus: "User not found" });
     }
   } catch (err) {
-    console.log(err);
+    console.log('Error:', err);
+    return cb(err);
+  }
+}));
+
+passport.serializeUser((employee, cb) => {
+  console.log("serializeUser");
+  cb(null, employee.employee_id);
+});
+passport.deserializeUser(async (employee_id, cb) => {
+  console.log("deserializeUser");
+  console.log(employee_id);
+  try {
+    const result = await db.query("SELECT * FROM teams WHERE employee_id = $1", [employee_id]);
+    cb(null, result.rows[0]);
+  } catch (err) {
+    cb(err);
   }
 });
-
-
-
 
 app.listen(port, () => {
   console.log(`Server running on http://${process.env.VITE_DB_HOST}:${port}`);
