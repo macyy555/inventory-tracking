@@ -18,6 +18,7 @@ const port = process.env.VITE_DB_EXP_PORT;
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(session({
+  name: 'connect.sid',
   secret: process.env.VITE_SESSION_SECRET,
   resave: false,
   saveUninitialized: true,
@@ -356,10 +357,20 @@ app.put('/employee/editlist/delete', async (req, res) => {
   
 });
 
-app.post('/employee/home/login', passport.authenticate("local", {
-  successRedirect: client_origin+"/employee/home?submitstatus=completed",
-  failureRedirect: client_origin+"/employee/home/login",
-}));
+app.post('/employee/home/login', (req, res, next) => {
+  passport.authenticate('local', (err, user, info) => {
+    if (err) { return next(err); }
+    if (!user) {
+      // info contains your custom message, e.g. { submitstatus: "Incorrect Password" }
+      return res.redirect(`${client_origin}/employee/home/login?submitstatus=${info.submitstatus}`);
+    }
+    req.logIn(user, (err) => {
+      if (err) { return next(err); }
+      // info contains your custom message, e.g. { submitstatus: "Login Successful" }
+      return res.redirect(`${client_origin}/employee/home/?submitstatus=completed`);
+    });
+  })(req, res, next);
+});
 
 
 passport.use(new Strategy(async function verify(username, password, cb) {
@@ -385,6 +396,16 @@ passport.use(new Strategy(async function verify(username, password, cb) {
     return cb(err);
   }
 }));
+
+app.post('/employee/home/logout', (req, res) => {
+  req.logout(function(err) {
+    if (err) { return res.status(500).send({ submitstatus: "Logout failed"}); }
+    req.session.destroy(() => {
+      res.clearCookie('connect.sid'); // Name may vary if you changed the session name
+      return res.status(200).send({ submitstatus: "Logout successful" });
+    });
+  });
+});
 
 passport.serializeUser((employee, cb) => {
   console.log("serializeUser");

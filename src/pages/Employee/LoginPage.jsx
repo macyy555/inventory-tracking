@@ -9,10 +9,16 @@ import { useRouteLoaderData } from "react-router";
 
 const db_url = 'http://'+import.meta.env.VITE_DB_HOST+":"+import.meta.env.VITE_DB_EXP_PORT+"/employee/home/login";
 
+let setalert = true;
 
 function LoginPage(){
 
     const navigate = useNavigate();
+    const searchParams = new URLSearchParams(window.location.search);
+    if (searchParams.get("submitstatus") != "completed" && searchParams.get("submitstatus") != null && setalert){
+        alert(searchParams.get("submitstatus"));
+        setalert = false;
+    }
 
     const [employee_id, setemployee_id] = useState("");
     const [password, setpassword] = useState("");
@@ -29,6 +35,10 @@ function LoginPage(){
         navigate('/');
     }
 
+    function onSubmitClick(e){
+        setalert = true;
+    }
+
     return(
         <React.Fragment>
         <div className="bg-[#583c21] h-screen w-full place-content-center place-items-center"/>
@@ -42,7 +52,7 @@ function LoginPage(){
                     <input className="text-black bg-white border-[#967761] border-1 rounded-s mt-3 shadow-xs autofill:shadow-[inset_0_0_0px_1000px_rgb(255,255,255)] autofill:scheme-light" type="text" id="username" name="username" value={employee_id} onChange={onemployee_idChange} required/>
                     <label className="text-black mt-3" htmlFor="password">Password</label>
                     <input className="text-black bg-white border-[#967761] border-1 rounded-s mt-3 shadow-xs autofill:shadow-[inset_0_0_0px_1000px_rgb(255,255,255)] autofill:scheme-light" type="password" id="password" name="password" value={password} onChange={onpasswordChange} required/>
-                    <Button className="bg-[#D99F7F] border-[#967761] w-fit px-10 py-1 mt-7 rounded-lg shadow-sm" type="submit">Submit</Button>
+                    <Button className="bg-[#D99F7F] border-[#967761] w-fit px-10 py-1 mt-7 rounded-lg shadow-sm" type="submit" onClick={onSubmitClick}>Submit</Button>
                     </form>
                 </div>
             </div>
