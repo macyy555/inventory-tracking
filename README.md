@@ -1,7 +1,7 @@
 # Inventory Tracking
 # React + Vite
 
-This project is developed for practing purpose.
+This project is developed for practicing purpose.
 The website shows different information based on role (Customer/Employee)
 - Customer will see only lists of products and can submit a question
 - Employee will see lists of the inventory and able to edit the list (Credential verification is needed)
