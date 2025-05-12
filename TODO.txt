@@ -1,4 +1,0 @@
-- encrypt data
-
-Limitation
-- new product added will not have description/img => expect to be updated from Backend not by the user
